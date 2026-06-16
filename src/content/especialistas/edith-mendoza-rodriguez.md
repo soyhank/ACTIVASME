@@ -17,7 +17,7 @@ areas:
   - { nombre: "Adicciones" }
   - { nombre: "Conductas alimentarias", servicio: "trastornos-alimentarios" }
 modalidad: "presencial/virtual"
-foto: "/equipo/edith-mendoza-rodriguez.svg"
+foto: "/equipo/edith-mendoza-rodriguez.jpg"
 numeroColegiatura: "TODO"
 mensajeWhatsapp: "¡Hola! Quisiera agendar una cita con la Lic. Edith Mendoza."
 orden: 1

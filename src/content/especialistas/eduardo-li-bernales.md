@@ -15,7 +15,7 @@ areas:
   - { nombre: "Conductas alimentarias", servicio: "trastornos-alimentarios" }
   - { nombre: "Adicciones" }
 modalidad: "presencial/virtual"
-foto: "/equipo/eduardo-li-bernales.svg"
+foto: "/equipo/eduardo-li-bernales.jpg"
 numeroColegiatura: "TODO"
 mensajeWhatsapp: "¡Hola! Quisiera agendar una cita con el Lic. Eduardo Li."
 orden: 2
