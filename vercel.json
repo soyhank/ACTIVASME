@@ -24,7 +24,7 @@
       ]
     },
     {
-      "source": "/(.*)\\.(?:js|css|svg|jpg|jpeg|png|webp|avif|woff2|ico)",
+      "source": "/_astro/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
