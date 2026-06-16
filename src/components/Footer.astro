@@ -1,0 +1,127 @@
+---
+import { SITE } from '../lib/site';
+import { PSICOLOGIA, PSIQUIATRIA } from '../lib/nav';
+import { whatsappLink } from '../lib/whatsapp';
+
+const year = 2026;
+const waHref = whatsappLink();
+---
+
+<footer class="site-footer">
+  <div class="container-wide footer-grid">
+    <div class="footer-brand">
+      <img src="/logo-blanco.svg" width="190" height="48" alt="ACTIVA Mental Health & Wellness" />
+      <p class="footer-slogan">«{SITE.slogan}»</p>
+      <p class="footer-desc">
+        Centro de salud mental en Lima. Psicología y psiquiatría, presencial y online,
+        para todo el Perú y el extranjero.
+      </p>
+      <div class="footer-social" aria-label="Redes sociales">
+        <a href={SITE.social.facebook} target="_blank" rel="noopener" aria-label="Facebook">Facebook</a>
+        <a href={SITE.social.instagram} target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
+        <a href={SITE.social.twitter} target="_blank" rel="noopener" aria-label="X (Twitter)">X</a>
+      </div>
+    </div>
+
+    <nav class="footer-col" aria-label="Psicología">
+      <h2>Psicología</h2>
+      <ul>
+        <li><a href="/psicologia/">Ver todo</a></li>
+        {PSICOLOGIA.slice(0, 6).map((s) => <li><a href={s.href}>{s.titulo}</a></li>)}
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Psiquiatría">
+      <h2>Psiquiatría</h2>
+      <ul>
+        <li><a href="/psiquiatria/">Ver todo</a></li>
+        {PSIQUIATRIA.slice(0, 6).map((s) => <li><a href={s.href}>{s.titulo}</a></li>)}
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Más">
+      <h2>Activa</h2>
+      <ul>
+        <li><a href="/quienes-somos/">Quiénes somos</a></li>
+        <li><a href="/especialistas/">Especialistas</a></li>
+        <li><a href="/terapia-online/">Terapia online</a></li>
+        <li><a href="/empresas/">Para empresas</a></li>
+        <li><a href="/recursos/">Recursos</a></li>
+        <li><a href="/contacto/">Contacto</a></li>
+      </ul>
+      <div class="footer-contact">
+        <a class="footer-wa" href={waHref} target="_blank" rel="noopener">WhatsApp: {SITE.phoneDisplay}</a>
+      </div>
+    </nav>
+  </div>
+
+  <div class="container-wide footer-bottom">
+    <p>© {year} {SITE.name}. Todos los derechos reservados.</p>
+    <nav class="footer-legal" aria-label="Legal">
+      <a href="/aviso-medico/">Aviso médico</a>
+      <a href="/privacidad/">Privacidad</a>
+      <a href="/terminos/">Términos</a>
+    </nav>
+  </div>
+  <div class="container-wide">
+    <p class="footer-disclaimer">
+      La información de este sitio es de carácter educativo y no reemplaza la consulta
+      profesional. Si tú o alguien más está en riesgo, acude a emergencias o a la
+      <strong> Línea 113 (opción 5) del MINSA</strong>.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-primary-dark);
+    color: #d7eae9;
+    margin-top: 4rem;
+    padding-top: 3rem;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 2rem;
+    padding-bottom: 2.5rem;
+  }
+  .footer-brand img { height: 44px; width: auto; margin-bottom: 0.75rem; }
+  .footer-slogan { font-style: italic; color: #9fe0d4; margin-bottom: 0.5rem; }
+  .footer-desc { font-size: 0.92rem; color: #bcdcd9; max-width: 36ch; }
+  .footer-social { display: flex; gap: 1rem; margin-top: 1rem; font-size: 0.9rem; }
+  .footer-social a:hover { color: #fff; text-decoration: underline; }
+
+  .footer-col h2 { font-size: 1rem; color: #fff; margin-bottom: 0.8rem; }
+  .footer-col ul { list-style: none; display: grid; gap: 0.4rem; }
+  .footer-col a { font-size: 0.9rem; color: #c8e4e1; }
+  .footer-col a:hover { color: #fff; text-decoration: underline; }
+  .footer-contact { margin-top: 1rem; }
+  .footer-wa { font-weight: 700; color: #9fe0d4; }
+  .footer-wa:hover { color: #fff; }
+
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 1.25rem 1.25rem;
+    font-size: 0.85rem;
+  }
+  .footer-legal { display: flex; gap: 1.25rem; }
+  .footer-legal a:hover { color: #fff; text-decoration: underline; }
+  .footer-disclaimer {
+    font-size: 0.8rem;
+    color: #9fc4c0;
+    padding: 0 1.25rem 1.5rem;
+    max-width: 90ch;
+  }
+
+  @media (max-width: 860px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 520px) {
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>

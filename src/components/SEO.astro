@@ -1,0 +1,70 @@
+---
+import { SITE } from '../lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Ruta canónica (por defecto, la actual). */
+  canonical?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  /** Objetos JSON-LD ya construidos (se filtran los nulos). */
+  jsonld?: (Record<string, unknown> | null)[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  image = '/og-default.jpg',
+  type = 'website',
+  noindex = false,
+  jsonld = [],
+} = Astro.props;
+
+const canonicalURL = new URL(canonical ?? Astro.url.pathname, SITE.url);
+const socialImage = new URL(image, SITE.url);
+const fullTitle =
+  title === SITE.name ? title : `${title} | ${SITE.shortName}`;
+const schemas = jsonld.filter(Boolean) as Record<string, unknown>[];
+---
+
+<!-- SEO primario -->
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+<meta
+  name="robots"
+  content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'}
+/>
+<meta name="author" content={SITE.name} />
+
+<!-- hreflang -->
+<link rel="alternate" hreflang="es-PE" href={canonicalURL} />
+<link rel="alternate" hreflang="es" href={canonicalURL} />
+<link rel="alternate" hreflang="x-default" href={canonicalURL} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content="es_PE" />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:image" content={socialImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={socialImage} />
+
+<!-- JSON-LD -->
+{
+  schemas.map((s) => (
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(s)} />
+  ))
+}

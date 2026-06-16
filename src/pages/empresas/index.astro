@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { whatsappLink } from '../../lib/whatsapp';
+import { breadcrumbSchema, faqSchema, serviceSchema } from '../../lib/schema';
+
+const title = 'Salud mental para empresas en Perú';
+const description =
+  'Programas de salud mental y bienestar laboral para empresas en Perú: telesalud, salud mental ocupacional, riesgo psicosocial y gestión de talento humano.';
+const url = '/empresas/';
+const breadcrumbItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Para empresas', href: url },
+];
+const waHref = whatsappLink('¡Hola! Quisiera información sobre los programas para empresas.');
+
+const servicios = [
+  { t: 'Telesalud y telemedicina', d: 'Atención en salud mental para tus colaboradores, accesible desde cualquier sede o región.' },
+  { t: 'Salud mental ocupacional', d: 'Prevención, evaluación y acompañamiento del bienestar emocional en el entorno laboral.' },
+  { t: 'Riesgo psicosocial y ergonomía', d: 'Programas de seguridad y salud en el trabajo con énfasis en factores psicosociales.' },
+  { t: 'Gestión de talento humano en salud', d: 'Acompañamiento experto en la administración de talento humano en salud mental.' },
+];
+
+const beneficios = [
+  'Equipos más sanos, comprometidos y productivos.',
+  'Menor ausentismo y rotación.',
+  'Cumplimiento de la normativa de seguridad y salud en el trabajo.',
+  'Un mensaje claro: la organización cuida a su gente.',
+];
+
+const faq = [
+  {
+    pregunta: '¿Qué incluye un programa de salud mental para empresas?',
+    respuesta:
+      'Se diseña a la medida de cada organización. Puede incluir atención por telesalud, evaluación de riesgo psicosocial, charlas y talleres, y acompañamiento en salud ocupacional. Conversemos tu caso.',
+  },
+  {
+    pregunta: '¿Atienden a empresas fuera de Lima?',
+    respuesta:
+      'Sí. Gracias a la modalidad de telesalud, podemos acompañar a equipos en distintas regiones del Perú.',
+  },
+  {
+    pregunta: '¿Cómo solicito una propuesta?',
+    respuesta:
+      'Escríbenos por WhatsApp o desde la página de contacto contándonos sobre tu organización y necesidades, y preparamos una propuesta a tu medida.',
+  },
+];
+
+const jsonld = [
+  serviceSchema({ nombre: 'Salud mental para empresas', descripcion: description, url, tipo: 'Service' }),
+  faqSchema(faq),
+  breadcrumbSchema(breadcrumbItems),
+];
+---
+
+<BaseLayout title={title} description={description} canonical={url} jsonld={jsonld} whatsappMensaje="¡Hola! Quisiera información sobre los programas para empresas.">
+  <div class="container-wide emp-top">
+    <Breadcrumbs items={breadcrumbItems} />
+  </div>
+
+  <section class="emp-hero">
+    <div class="container-wide">
+      <p class="emp-eyebrow">Para empresas</p>
+      <h1>Bienestar y salud mental para tu organización</h1>
+      <p class="emp-lead">
+        Acompañamos a las empresas a cuidar la salud mental de sus colaboradores con
+        programas de telesalud, salud ocupacional y prevención del riesgo psicosocial,
+        diseñados a su medida.
+      </p>
+      <a class="emp-cta" href={waHref} target="_blank" rel="noopener">Solicita una propuesta</a>
+    </div>
+  </section>
+
+  <section class="container-wide emp-section">
+    <h2>Lo que ofrecemos</h2>
+    <div class="emp-grid">
+      {servicios.map((s) => (
+        <div class="emp-card">
+          <h3>{s.t}</h3>
+          <p>{s.d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="emp-band">
+    <div class="container-wide emp-band-inner">
+      <h2>Por qué invertir en salud mental</h2>
+      <ul class="emp-benefits">
+        {beneficios.map((b) => <li>{b}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <div class="container-wide">
+    <Faq items={faq} />
+  </div>
+
+  <Cta titulo="Cuidemos juntos a tu equipo" texto="Cuéntanos sobre tu organización y diseñamos un programa a tu medida." mensaje="¡Hola! Quisiera información sobre los programas para empresas." etiqueta="Conversar por WhatsApp" />
+</BaseLayout>
+
+<style>
+  .emp-top { padding-top: 1.25rem; }
+  .emp-hero { padding: 0.75rem 0 1.5rem; background: linear-gradient(180deg, color-mix(in srgb, var(--color-primary-light) 18%, var(--color-bg)), var(--color-bg)); }
+  .emp-eyebrow { text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800; color: var(--color-primary-dark); font-size: 0.8rem; }
+  .emp-hero h1 { font-size: clamp(1.9rem, 4.5vw, 2.9rem); max-width: 20ch; margin-top: 0.5rem; }
+  .emp-lead { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--color-text-muted); max-width: 64ch; margin-top: 1rem; }
+  .emp-cta { display: inline-block; margin-top: 1.5rem; background: var(--color-accent); color: var(--color-on-accent); padding: 0.85rem 1.6rem; border-radius: 999px; font-weight: 800; }
+  .emp-cta:hover { background: var(--color-accent-dark); }
+  .emp-section { padding: 3rem 0 1rem; }
+  .emp-section h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 1.5rem; }
+  .emp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+  .emp-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.4rem; }
+  .emp-card h3 { font-size: 1.05rem; color: var(--color-primary-dark); }
+  .emp-card p { color: var(--color-text-muted); font-size: 0.92rem; margin-top: 0.3rem; }
+  .emp-band { background: color-mix(in srgb, var(--color-primary-light) 12%, var(--color-bg)); padding: 3rem 0; margin-top: 2rem; }
+  .emp-band-inner h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 1.25rem; }
+  .emp-benefits { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.75rem; }
+  .emp-benefits li { position: relative; padding-left: 1.8rem; }
+  .emp-benefits li::before { content: '✓'; position: absolute; left: 0; color: var(--color-primary); font-weight: 800; }
+</style>

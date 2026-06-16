@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Cta from '../../components/Cta.astro';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const articulos = (await getCollection('recursos'))
+  .filter((r) => !r.data.draft)
+  .sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
+
+const fmt = (d: Date) => d.toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const title = 'Recursos de salud mental';
+const description =
+  'Artículos y guías de salud mental escritos por el equipo de Activa: ansiedad, depresión, terapia, TDAH, duelo y más. Contenido original y basado en evidencia.';
+const url = '/recursos/';
+const breadcrumbItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Recursos', href: url },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={url} jsonld={[breadcrumbSchema(breadcrumbItems)]}>
+  <div class="container-wide rec-top">
+    <Breadcrumbs items={breadcrumbItems} />
+  </div>
+
+  <section class="rec-hero">
+    <div class="container-wide">
+      <p class="rec-eyebrow">Recursos</p>
+      <h1>Información que acompaña tu bienestar</h1>
+      <p class="rec-lead">
+        Artículos y guías escritos por nuestro equipo de psicólogos y psiquiatras, con
+        información clara, empática y basada en evidencia. Cada contenido está firmado por un
+        profesional.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide rec-list">
+    {
+      articulos.length === 0 ? (
+        <p>Pronto publicaremos nuevos recursos.</p>
+      ) : (
+        <div class="rec-grid">
+          {articulos.map((a) => (
+            <a class="rec-card" href={`/recursos/${a.id}/`}>
+              <span class="rec-cat">{a.data.categoria}</span>
+              <h2>{a.data.title}</h2>
+              <p>{a.data.description}</p>
+              <span class="rec-date">{fmt(a.data.fecha)}</span>
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </section>
+
+  <Cta titulo="¿Conversamos?" texto="Si algún tema resuena contigo, nuestro equipo puede acompañarte." />
+</BaseLayout>
+
+<style>
+  .rec-top { padding-top: 1.25rem; }
+  .rec-hero { padding: 0.75rem 0 1.5rem; background: linear-gradient(180deg, color-mix(in srgb, var(--color-primary-light) 16%, var(--color-bg)), var(--color-bg)); }
+  .rec-eyebrow { text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800; color: var(--color-primary-dark); font-size: 0.8rem; }
+  .rec-hero h1 { font-size: clamp(1.9rem, 4.5vw, 2.8rem); max-width: 20ch; margin-top: 0.5rem; }
+  .rec-lead { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--color-text-muted); max-width: 66ch; margin-top: 1rem; }
+  .rec-list { padding: 2rem 1.25rem 1rem; }
+  .rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+  .rec-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+  .rec-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .rec-cat { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 800; color: var(--color-primary-dark); }
+  .rec-card h2 { font-size: 1.15rem; }
+  .rec-card p { color: var(--color-text-muted); font-size: 0.92rem; }
+  .rec-date { margin-top: auto; font-size: 0.8rem; color: var(--color-text-muted); }
+</style>

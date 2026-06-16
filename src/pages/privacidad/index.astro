@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { SITE } from '../../lib/site';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const title = 'Política de privacidad';
+const description =
+  'Política de privacidad de ACTIVA Mental Health & Wellness, conforme a la Ley N.° 29733 de Protección de Datos Personales del Perú.';
+const url = '/privacidad/';
+const breadcrumbItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Privacidad', href: url },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={url} jsonld={[breadcrumbSchema(breadcrumbItems)]}>
+  <div class="container-wide legal-top">
+    <Breadcrumbs items={breadcrumbItems} />
+  </div>
+  <article class="container-wide legal prose-activa">
+    <h1>Política de privacidad</h1>
+    <p>
+      En {SITE.name} valoramos y protegemos tu privacidad. Esta política describe cómo
+      tratamos los datos personales conforme a la <strong>Ley N.° 29733, Ley de Protección
+      de Datos Personales del Perú</strong>, y su reglamento.
+    </p>
+
+    <h2>Responsable del tratamiento</h2>
+    <p>
+      El responsable del tratamiento de los datos es {SITE.name}.
+      <em>(Razón social, RUC y domicilio legal por confirmar.)</em>
+    </p>
+
+    <h2>Datos que recopilamos</h2>
+    <p>Podemos recopilar los datos que nos proporcionas de forma voluntaria, por ejemplo:</p>
+    <ul>
+      <li>Nombre y apellidos.</li>
+      <li>Correo electrónico y número de teléfono o WhatsApp.</li>
+      <li>El motivo de tu consulta o mensaje.</li>
+    </ul>
+    <p>
+      La información clínica que se genere en el marco de una atención profesional se trata
+      con estricta confidencialidad y de acuerdo con el secreto profesional.
+    </p>
+
+    <h2>Finalidad del tratamiento</h2>
+    <ul>
+      <li>Atender tus consultas y solicitudes de cita.</li>
+      <li>Brindar y coordinar nuestros servicios de salud mental.</li>
+      <li>Enviarte información relacionada con la atención solicitada.</li>
+    </ul>
+
+    <h2>Base legal y consentimiento</h2>
+    <p>
+      El tratamiento de tus datos se basa en tu <strong>consentimiento</strong>, que otorgas
+      al enviarnos tu información, y en la prestación del servicio solicitado. Puedes
+      retirarlo en cualquier momento.
+    </p>
+
+    <h2>Conservación y seguridad</h2>
+    <p>
+      Conservamos los datos por el tiempo necesario para las finalidades descritas y según
+      las obligaciones legales aplicables. Aplicamos medidas razonables de seguridad para
+      protegerlos.
+    </p>
+
+    <h2>Tus derechos (ARCO)</h2>
+    <p>
+      Tienes derecho a acceder, rectificar, cancelar y oponerte al tratamiento de tus datos,
+      así como otros derechos reconocidos por la Ley N.° 29733. Para ejercerlos, escríbenos a
+      <strong>{SITE.email}</strong> <em>(correo por confirmar)</em>.
+    </p>
+
+    <h2>Transferencias y encargados</h2>
+    <p>
+      Podemos apoyarnos en proveedores tecnológicos (por ejemplo, para el alojamiento web o
+      la mensajería) que actúan como encargados de tratamiento bajo las garantías que exige
+      la normativa. <em>(Detalle por confirmar.)</em>
+    </p>
+
+    <h2>Cambios en esta política</h2>
+    <p>
+      Podremos actualizar esta política para reflejar cambios legales u operativos. La
+      versión vigente estará siempre disponible en esta página.
+    </p>
+
+    <p class="legal-rev">Última actualización: junio de 2026.</p>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal-top { padding-top: 1.25rem; }
+  .legal { max-width: 760px; padding: 1.5rem 1.25rem 2rem; }
+  .legal h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: 1rem; }
+  .legal-rev { font-size: 0.82rem; color: var(--color-text-muted); margin-top: 2rem; }
+</style>

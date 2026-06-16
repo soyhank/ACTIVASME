@@ -1,0 +1,64 @@
+/* =========================================================================
+   ACTIVA — Design tokens (paletas conmutables)
+   Cambia la paleta activa con  <html data-theme="sereno">  o  data-theme="vivo".
+   Sin atributo => Opción A "Calma Natural" (PREDETERMINADA).
+   Los componentes nunca usan hex: siempre tokens (bg-primary, text-text, …).
+   ========================================================================= */
+
+:root {
+  /* ---- Opción A — "Calma Natural" (PREDETERMINADA) ---- */
+  --c-primary: #2a7f8e;
+  --c-primary-dark: #1b5563;
+  --c-primary-light: #5bbfb0;
+  --c-accent: #f4a261;
+  --c-accent-dark: #e08b45;
+  --c-bg: #f7fbfb;
+  --c-surface: #ffffff;
+  --c-text: #1f2d33;
+  --c-text-muted: #5c6b72;
+  --c-border: #e2eded;
+
+  /* Texto sobre fondos de color (contraste AA) */
+  --c-on-primary: #ffffff;
+  --c-on-accent: #2a1a08;
+
+  /* Radios y sombras */
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 1px 2px rgba(27, 85, 99, 0.06);
+  --shadow: 0 6px 20px rgba(27, 85, 99, 0.08);
+  --shadow-lg: 0 16px 40px rgba(27, 85, 99, 0.12);
+}
+
+/* ---- Opción B — "Sereno Profundo" (institucional/premium) ---- */
+[data-theme="sereno"] {
+  --c-primary: #26658c;
+  --c-primary-dark: #173f57;
+  --c-primary-light: #7fc2c2;
+  --c-accent: #e8b04b;
+  --c-accent-dark: #c8923a;
+  --c-bg: #f6f9fb;
+  --c-surface: #ffffff;
+  --c-text: #16242e;
+  --c-text-muted: #5a6b78;
+  --c-border: #e1eaef;
+  --c-on-primary: #ffffff;
+  --c-on-accent: #2a1f08;
+}
+
+/* ---- Opción C — "Bienestar Vivo" (wellness/holístico) ---- */
+[data-theme="vivo"] {
+  --c-primary: #3d9a8b;
+  --c-primary-dark: #27645a;
+  --c-primary-light: #8fd0c4;
+  --c-accent: #5b8def;
+  --c-accent-dark: #3f6fcf;
+  --c-bg: #f5faf8;
+  --c-surface: #ffffff;
+  --c-text: #1e2a28;
+  --c-text-muted: #5f6f6a;
+  --c-border: #dcebe6;
+  --c-on-primary: #ffffff;
+  --c-on-accent: #ffffff;
+}

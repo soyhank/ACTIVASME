@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Cta from '../../components/Cta.astro';
+import { SITE } from '../../lib/site';
+import { breadcrumbSchema, medicalClinicSchema } from '../../lib/schema';
+
+const title = 'Quiénes somos';
+const description =
+  'Conoce a ACTIVA Mental Health & Wellness: desde 2017 acompañamos la salud mental en el Perú con un equipo de psicólogos y psiquiatras, presencial y online.';
+const url = '/quienes-somos/';
+
+const breadcrumbItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Quiénes somos', href: url },
+];
+
+const valores = [
+  { t: 'Atención integral e integrada', d: 'Coordinamos salud mental y física para cuidar a la persona en su totalidad.' },
+  { t: 'Calidez y respeto', d: 'Un espacio seguro, sin juicios, donde sentirte escuchado y acompañado.' },
+  { t: 'Evidencia científica', d: 'Intervenciones con respaldo, adaptadas a cada historia de vida.' },
+  { t: 'Accesibilidad', d: 'Modalidad presencial en Lima y online para todo el Perú y el extranjero.' },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={url} jsonld={[medicalClinicSchema(), breadcrumbSchema(breadcrumbItems)]}>
+  <div class="container-wide qs-top">
+    <Breadcrumbs items={breadcrumbItems} />
+  </div>
+
+  <section class="qs-hero">
+    <div class="container-wide">
+      <p class="qs-eyebrow">Nuestra historia</p>
+      <h1>Comprometidos con tu felicidad desde 2017</h1>
+      <p class="qs-lead">
+        En {SITE.name} creemos que el bienestar emocional es la base de una buena calidad
+        de vida. Por eso acompañamos a personas, familias y organizaciones con una atención
+        cálida, profesional y basada en evidencia.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide qs-body">
+    <div class="prose-activa">
+      <h2>Más de ocho años cuidando la salud mental</h2>
+      <p>
+        Trabajamos desde <strong>2017</strong> proveyendo profesionales de salud a
+        instituciones y brindando atención directa a pacientes en modalidad particular.
+        Hemos sido pioneros en programas ambulatorios y hospitalarios para la
+        <strong> atención integral e integrada</strong> en salud mental y física, buscando
+        siempre el bienestar y la calidad de vida de cada persona.
+      </p>
+
+      <h2>Un equipo con trayectoria</h2>
+      <p>
+        Nuestro equipo reúne experiencia en <strong>Colombia y Perú</strong> en atención en
+        salud y en administración de talento humano en salud mental. Está conformado por
+        <strong> psicólogos y médicos psiquiatras</strong> que atienden a niños, adolescentes,
+        adultos y adultos mayores, con enfoques como la terapia cognitivo conductual (TCC),
+        la terapia de aceptación y compromiso (ACT) y la terapia dialéctico conductual (DBT),
+        entre otros.
+      </p>
+
+      <h2>Atención presencial y online</h2>
+      <p>
+        Atendemos de forma <strong>presencial en Lima</strong> y contamos con una
+        <strong> plataforma online</strong> con el mismo equipo terapéutico, pensada para
+        personas que viven fuera de Lima o en el extranjero. Así, recibir apoyo profesional
+        no depende de dónde estés.
+      </p>
+
+      <h2>También acompañamos a las empresas</h2>
+      <p>
+        Ofrecemos a las organizaciones programas de <strong>seguridad y salud en el
+        trabajo</strong>, con énfasis en salud ocupacional, ergonomía y riesgo psicosocial,
+        además de telesalud y gestión de talento humano en salud. Conoce más en nuestra
+        sección para <a href="/empresas/">empresas</a>.
+      </p>
+    </div>
+
+    <div class="qs-values">
+      <h2>Lo que nos guía</h2>
+      <div class="values-grid">
+        {valores.map((v) => (
+          <div class="value-card">
+            <h3>{v.t}</h3>
+            <p>{v.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="qs-equipo-link">
+      <p>Detrás de cada acompañamiento hay personas reales y comprometidas.</p>
+      <a href="/especialistas/">Conoce a nuestros especialistas →</a>
+    </div>
+  </section>
+
+  <Cta />
+</BaseLayout>
+
+<style>
+  .qs-top { padding-top: 1.25rem; }
+  .qs-hero { padding: 0.75rem 0 1.5rem; background: linear-gradient(180deg, color-mix(in srgb, var(--color-primary-light) 16%, var(--color-bg)), var(--color-bg)); }
+  .qs-eyebrow { text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800; color: var(--color-primary-dark); font-size: 0.8rem; }
+  .qs-hero h1 { font-size: clamp(1.9rem, 4.5vw, 2.9rem); max-width: 20ch; margin-top: 0.5rem; }
+  .qs-lead { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--color-text-muted); max-width: 66ch; margin-top: 1rem; }
+  .qs-body { max-width: 820px; padding-top: 2rem; }
+  .qs-values { margin-top: 3rem; }
+  .qs-values h2 { font-size: 1.6rem; margin-bottom: 1.25rem; }
+  .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.25rem; }
+  .value-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.4rem; }
+  .value-card h3 { font-size: 1.05rem; color: var(--color-primary-dark); }
+  .value-card p { color: var(--color-text-muted); font-size: 0.92rem; margin-top: 0.3rem; }
+  .qs-equipo-link {
+    margin-top: 3rem; padding: 1.5rem; border-radius: var(--radius);
+    background: color-mix(in srgb, var(--color-primary-light) 14%, var(--color-surface));
+    border: 1px solid var(--color-border);
+  }
+  .qs-equipo-link p { font-weight: 600; }
+  .qs-equipo-link a { color: var(--color-primary-dark); font-weight: 700; text-decoration: underline; }
+</style>

@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { SITE } from '../../lib/site';
+import { whatsappLink } from '../../lib/whatsapp';
+import { breadcrumbSchema, medicalClinicSchema } from '../../lib/schema';
+
+const title = 'Contacto';
+const description =
+  'Contacta a ACTIVA Mental Health & Wellness. Agenda tu cita por WhatsApp o escríbenos. Atención de psicología y psiquiatría en Lima, presencial y online.';
+const url = '/contacto/';
+const breadcrumbItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Contacto', href: url },
+];
+const waHref = whatsappLink();
+---
+
+<BaseLayout title={title} description={description} canonical={url} jsonld={[medicalClinicSchema(), breadcrumbSchema(breadcrumbItems)]}>
+  <div class="container-wide c-top">
+    <Breadcrumbs items={breadcrumbItems} />
+  </div>
+
+  <section class="container-wide c-grid">
+    <div class="c-info">
+      <p class="c-eyebrow">Contacto</p>
+      <h1>Estamos para acompañarte</h1>
+      <p class="c-lead">
+        La forma más rápida de agendar es por WhatsApp. También puedes escribirnos con el
+        formulario y te responderemos a la brevedad.
+      </p>
+
+      <ul class="c-channels">
+        <li>
+          <span class="c-label">WhatsApp</span>
+          <a href={waHref} target="_blank" rel="noopener">{SITE.phoneDisplay}</a>
+        </li>
+        <li>
+          <span class="c-label">Teléfono</span>
+          <a href={`tel:${SITE.phoneE164}`}>{SITE.phoneDisplay}</a>
+        </li>
+        <li>
+          <span class="c-label">Correo</span>
+          <span class="c-todo">{SITE.email} <em>(por confirmar)</em></span>
+        </li>
+        <li>
+          <span class="c-label">Modalidad</span>
+          <span>Presencial en Lima y online para todo el Perú</span>
+        </li>
+        <li>
+          <span class="c-label">Dirección</span>
+          <span class="c-todo">Lima — dirección exacta por confirmar</span>
+        </li>
+        <li>
+          <span class="c-label">Horario</span>
+          <span class="c-todo">Por confirmar</span>
+        </li>
+      </ul>
+
+      <a class="c-wa" href={waHref} target="_blank" rel="noopener">Agenda por WhatsApp</a>
+    </div>
+
+    <div class="c-form-wrap">
+      <h2>Escríbenos</h2>
+      <!-- TODO: reemplazar action por el endpoint real del formulario (p. ej. Formspree, Getform o un backend propio). -->
+      <form class="c-form" action="https://formspree.io/f/TODO" method="POST" novalidate>
+        <div class="field">
+          <label for="nombre">Nombre y apellido <span aria-hidden="true">*</span></label>
+          <input id="nombre" name="nombre" type="text" required autocomplete="name" aria-required="true" />
+        </div>
+        <div class="field">
+          <label for="email">Correo electrónico <span aria-hidden="true">*</span></label>
+          <input id="email" name="email" type="email" required autocomplete="email" aria-required="true" />
+        </div>
+        <div class="field">
+          <label for="telefono">Teléfono / WhatsApp</label>
+          <input id="telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" />
+        </div>
+        <div class="field">
+          <label for="motivo">¿En qué podemos ayudarte? <span aria-hidden="true">*</span></label>
+          <textarea id="motivo" name="motivo" rows="5" required aria-required="true"></textarea>
+        </div>
+        <div class="field-check">
+          <input id="consent" name="consent" type="checkbox" required aria-required="true" />
+          <label for="consent">
+            Acepto el tratamiento de mis datos según la
+            <a href="/privacidad/">Política de Privacidad</a>.
+          </label>
+        </div>
+        <button type="submit" class="c-submit">Enviar mensaje</button>
+        <p class="c-note">Te responderemos lo antes posible. Para una atención inmediata, usa WhatsApp.</p>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .c-top { padding-top: 1.25rem; }
+  .c-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; padding: 1.5rem 1.25rem 3rem; align-items: start; }
+  .c-eyebrow { text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800; color: var(--color-primary-dark); font-size: 0.8rem; }
+  .c-info h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-top: 0.4rem; }
+  .c-lead { color: var(--color-text-muted); margin-top: 0.9rem; max-width: 46ch; }
+  .c-channels { list-style: none; margin: 1.75rem 0; display: grid; gap: 0.9rem; }
+  .c-channels li { display: grid; grid-template-columns: 120px 1fr; gap: 0.5rem; align-items: baseline; }
+  .c-label { font-weight: 700; color: var(--color-primary-dark); font-size: 0.9rem; }
+  .c-channels a { color: var(--color-primary-dark); text-decoration: underline; }
+  .c-todo { color: var(--color-text-muted); }
+  .c-wa { display: inline-block; background: var(--color-accent); color: var(--color-on-accent); padding: 0.85rem 1.6rem; border-radius: 999px; font-weight: 800; }
+  .c-wa:hover { background: var(--color-accent-dark); }
+
+  .c-form-wrap { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 1.75rem; box-shadow: var(--shadow-sm); }
+  .c-form-wrap h2 { font-size: 1.4rem; margin-bottom: 1.25rem; }
+  .field { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem; }
+  .field label { font-weight: 600; font-size: 0.92rem; }
+  .field input, .field textarea {
+    border: 1.5px solid var(--color-border); border-radius: 10px; padding: 0.7rem 0.85rem;
+    font: inherit; color: var(--color-text); background: var(--color-bg);
+  }
+  .field input:focus, .field textarea:focus { border-color: var(--color-primary); outline: none; }
+  .field input:invalid:not(:placeholder-shown), .field textarea:invalid:not(:placeholder-shown) { border-color: #c0392b; }
+  .field-check { display: flex; gap: 0.6rem; align-items: flex-start; margin-bottom: 1.25rem; font-size: 0.88rem; color: var(--color-text-muted); }
+  .field-check a { color: var(--color-primary-dark); text-decoration: underline; }
+  .c-submit { background: var(--color-primary); color: #fff; border: 0; padding: 0.85rem 1.6rem; border-radius: 999px; font-weight: 800; font: inherit; cursor: pointer; }
+  .c-submit:hover { background: var(--color-primary-dark); }
+  .c-note { font-size: 0.82rem; color: var(--color-text-muted); margin-top: 0.75rem; }
+
+  @media (max-width: 820px) {
+    .c-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,93 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { PSICOLOGIA } from '../../lib/nav';
+import { breadcrumbSchema, faqSchema, serviceSchema } from '../../lib/schema';
+
+const servicios = (await getCollection('servicios'))
+  .filter((s) => s.data.pilar === 'psicologia' && !s.data.draft)
+  .sort((a, b) => a.data.orden - b.data.orden);
+
+const cards = servicios.length
+  ? servicios.map((s) => ({ titulo: s.data.h1, href: `/psicologia/${s.id}/`, descripcion: s.data.intro }))
+  : PSICOLOGIA.map((s) => ({ titulo: s.titulo, href: s.href, descripcion: undefined }));
+
+const title = 'Psicólogo en Lima';
+const description =
+  'Terapia psicológica en Lima, presencial y online: TCC, ACT, DBT, terapia de pareja, familiar, infantil y evaluaciones. Atención cálida y basada en evidencia.';
+const url = '/psicologia/';
+const breadcrumbItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Psicología', href: url },
+];
+
+const faq = [
+  {
+    pregunta: '¿Cuál es la diferencia entre un psicólogo y un psiquiatra?',
+    respuesta:
+      'El psicólogo acompaña mediante la psicoterapia (conversación y técnicas basadas en evidencia) y no receta medicamentos. El psiquiatra es médico y puede indicar tratamiento farmacológico. En muchos casos ambos trabajan de forma coordinada.',
+  },
+  {
+    pregunta: '¿La terapia psicológica funciona en modalidad online?',
+    respuesta:
+      'Sí. La evidencia muestra que la terapia online puede ser tan efectiva como la presencial para muchos motivos de consulta. En Activa atiendes con el mismo equipo, estés donde estés en el Perú.',
+  },
+  {
+    pregunta: '¿Cuántas sesiones voy a necesitar?',
+    respuesta:
+      'Depende de cada persona y motivo de consulta. En las primeras sesiones se realiza una evaluación y se define un plan de trabajo con objetivos claros, que se revisa de forma conjunta.',
+  },
+];
+
+const jsonld = [
+  serviceSchema({ nombre: 'Psicología y psicoterapia', descripcion: description, url, tipo: 'MedicalTherapy' }),
+  faqSchema(faq),
+  breadcrumbSchema(breadcrumbItems),
+];
+---
+
+<BaseLayout title={title} description={description} canonical={url} jsonld={jsonld}>
+  <div class="container-wide pilar-top">
+    <Breadcrumbs items={breadcrumbItems} />
+  </div>
+
+  <section class="pilar-hero">
+    <div class="container-wide">
+      <p class="pilar-eyebrow">Psicología</p>
+      <h1>Terapia psicológica en Lima, presencial y online</h1>
+      <p class="pilar-lead">
+        Acompañamos procesos de ansiedad, depresión, duelo, pareja y familia, entre otros,
+        con enfoques basados en evidencia como la TCC, la ACT y la DBT. Un espacio seguro
+        para sentirte escuchado y avanzar a tu ritmo.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide pilar-section">
+    <h2>Nuestros servicios de psicología</h2>
+    <div class="pilar-grid">
+      {cards.map((c) => <ServiceCard titulo={c.titulo} href={c.href} descripcion={c.descripcion} />)}
+    </div>
+  </section>
+
+  <div class="container-wide">
+    <Faq items={faq} />
+  </div>
+
+  <Cta />
+</BaseLayout>
+
+<style>
+  .pilar-top { padding-top: 1.25rem; }
+  .pilar-hero { padding: 0.75rem 0 1.5rem; background: linear-gradient(180deg, color-mix(in srgb, var(--color-primary-light) 16%, var(--color-bg)), var(--color-bg)); }
+  .pilar-eyebrow { text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800; color: var(--color-primary-dark); font-size: 0.8rem; }
+  .pilar-hero h1 { font-size: clamp(1.9rem, 4.5vw, 2.8rem); max-width: 22ch; margin-top: 0.5rem; }
+  .pilar-lead { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--color-text-muted); max-width: 66ch; margin-top: 1rem; }
+  .pilar-section { padding-top: 2rem; }
+  .pilar-section h2 { font-size: 1.6rem; margin-bottom: 1.25rem; }
+  .pilar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.25rem; }
+</style>

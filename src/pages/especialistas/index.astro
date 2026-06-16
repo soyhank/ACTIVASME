@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SpecialistCard from '../../components/SpecialistCard.astro';
+import Cta from '../../components/Cta.astro';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const all = (await getCollection('especialistas'))
+  .filter((e) => !e.data.draft)
+  .sort((a, b) => a.data.orden - b.data.orden);
+
+const toCard = (e: (typeof all)[number]) => ({
+  nombre: e.data.nombre,
+  rol: e.data.rol,
+  foto: e.data.foto,
+  modalidad: e.data.modalidad,
+  href: `/especialistas/${e.id}/`,
+});
+
+const psicologos = all.filter((e) => e.data.tipo === 'psicologo').map(toCard);
+const psiquiatras = all.filter((e) => e.data.tipo === 'psiquiatra').map(toCard);
+
+const title = 'Nuestros especialistas';
+const description =
+  'Conoce al equipo de psicólogos y médicos psiquiatras de ACTIVA. Profesionales colegiados que atienden en Lima, presencial y online, con trato cálido y basado en evidencia.';
+const url = '/especialistas/';
+const breadcrumbItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Especialistas', href: url },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={url} jsonld={[breadcrumbSchema(breadcrumbItems)]}>
+  <div class="container-wide esp-top">
+    <Breadcrumbs items={breadcrumbItems} />
+  </div>
+
+  <section class="esp-hero">
+    <div class="container-wide">
+      <p class="esp-eyebrow">Equipo profesional</p>
+      <h1>Personas reales, comprometidas con tu bienestar</h1>
+      <p class="esp-lead">
+        Nuestro equipo reúne a psicólogos y médicos psiquiatras con formación clínica y un
+        profundo respeto por cada historia. Elige a tu especialista y agenda tu cita,
+        presencial u online.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide esp-section">
+    <h2>Psicólogos</h2>
+    <div class="esp-grid">
+      {psicologos.map((e) => <SpecialistCard {...e} />)}
+    </div>
+  </section>
+
+  <section class="container-wide esp-section">
+    <h2>Médicos psiquiatras</h2>
+    <div class="esp-grid">
+      {psiquiatras.map((e) => <SpecialistCard {...e} />)}
+    </div>
+  </section>
+
+  <Cta />
+</BaseLayout>
+
+<style>
+  .esp-top { padding-top: 1.25rem; }
+  .esp-hero { padding: 0.75rem 0 1.5rem; background: linear-gradient(180deg, color-mix(in srgb, var(--color-primary-light) 16%, var(--color-bg)), var(--color-bg)); }
+  .esp-eyebrow { text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800; color: var(--color-primary-dark); font-size: 0.8rem; }
+  .esp-hero h1 { font-size: clamp(1.9rem, 4.5vw, 2.8rem); max-width: 22ch; margin-top: 0.5rem; }
+  .esp-lead { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--color-text-muted); max-width: 66ch; margin-top: 1rem; }
+  .esp-section { padding-top: 2rem; }
+  .esp-section h2 { font-size: 1.6rem; margin-bottom: 1.25rem; }
+  .esp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; }
+</style>

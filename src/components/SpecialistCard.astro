@@ -1,0 +1,54 @@
+---
+interface Props {
+  nombre: string;
+  rol: string;
+  href: string;
+  foto: string;
+  modalidad?: string;
+}
+const { nombre, rol, href, foto, modalidad } = Astro.props;
+---
+
+<a class="spec-card" href={href}>
+  <div class="spec-photo">
+    <img src={foto} width="320" height="320" alt={`Foto de ${nombre}`} loading="lazy" decoding="async" />
+  </div>
+  <div class="spec-body">
+    <h3>{nombre}</h3>
+    <p class="spec-rol">{rol}</p>
+    {modalidad && <span class="spec-badge">{modalidad === 'virtual' ? 'Online' : modalidad === 'presencial' ? 'Presencial' : 'Presencial y online'}</span>}
+    <span class="spec-more">Ver perfil →</span>
+  </div>
+</a>
+
+<style>
+  .spec-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    height: 100%;
+  }
+  .spec-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .spec-photo {
+    aspect-ratio: 1 / 1;
+    background: color-mix(in srgb, var(--color-primary-light) 25%, var(--color-surface));
+  }
+  .spec-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .spec-body { padding: 1.1rem 1.2rem 1.3rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .spec-body h3 { font-size: 1.05rem; }
+  .spec-rol { font-size: 0.88rem; color: var(--color-text-muted); }
+  .spec-badge {
+    align-self: flex-start;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    background: color-mix(in srgb, var(--color-primary-light) 28%, var(--color-surface));
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+  }
+  .spec-more { margin-top: 0.3rem; color: var(--color-primary-dark); font-weight: 700; font-size: 0.88rem; }
+</style>

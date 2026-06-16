@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { SITE } from '../../lib/site';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const title = 'Términos y condiciones';
+const description =
+  'Términos y condiciones de uso del sitio web de ACTIVA Mental Health & Wellness.';
+const url = '/terminos/';
+const breadcrumbItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Términos', href: url },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={url} jsonld={[breadcrumbSchema(breadcrumbItems)]}>
+  <div class="container-wide legal-top">
+    <Breadcrumbs items={breadcrumbItems} />
+  </div>
+  <article class="container-wide legal prose-activa">
+    <h1>Términos y condiciones de uso</h1>
+    <p>
+      El acceso y uso de este sitio web de {SITE.name} implican la aceptación de los
+      siguientes términos y condiciones. Si no estás de acuerdo, te pedimos no utilizar el
+      sitio.
+    </p>
+
+    <h2>Uso del sitio</h2>
+    <p>
+      Este sitio ofrece información sobre nuestros servicios de salud mental y recursos
+      educativos. Te comprometes a usarlo de buena fe y de conformidad con la ley.
+    </p>
+
+    <h2>Naturaleza de la información</h2>
+    <p>
+      El contenido es de carácter informativo y no sustituye la consulta profesional. Revisa
+      nuestro <a href="/aviso-medico/">aviso médico</a> para más detalle.
+    </p>
+
+    <h2>Citas y servicios</h2>
+    <p>
+      La solicitud de una cita a través de WhatsApp, teléfono o el formulario de contacto no
+      constituye, por sí sola, la confirmación del servicio. La atención se concreta según la
+      disponibilidad y previa coordinación con nuestro equipo.
+    </p>
+
+    <h2>Propiedad intelectual</h2>
+    <p>
+      Los contenidos, marcas, logotipos y materiales de este sitio pertenecen a {SITE.name} o
+      a sus titulares, y están protegidos por la normativa aplicable. No está permitida su
+      reproducción sin autorización.
+    </p>
+
+    <h2>Enlaces a terceros</h2>
+    <p>
+      Este sitio puede incluir enlaces a páginas de terceros (por ejemplo, redes sociales o
+      fuentes oficiales). No nos responsabilizamos por el contenido ni las políticas de esos
+      sitios.
+    </p>
+
+    <h2>Limitación de responsabilidad</h2>
+    <p>
+      Procuramos mantener la información actualizada y disponible, pero no garantizamos la
+      ausencia de errores ni la disponibilidad ininterrumpida del sitio.
+    </p>
+
+    <h2>Legislación aplicable</h2>
+    <p>
+      Estos términos se rigen por la legislación de la República del Perú.
+      <em>(Datos de razón social y jurisdicción por confirmar.)</em>
+    </p>
+
+    <p class="legal-rev">Última actualización: junio de 2026.</p>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal-top { padding-top: 1.25rem; }
+  .legal { max-width: 760px; padding: 1.5rem 1.25rem 2rem; }
+  .legal h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: 1rem; }
+  .legal-rev { font-size: 0.82rem; color: var(--color-text-muted); margin-top: 2rem; }
+</style>

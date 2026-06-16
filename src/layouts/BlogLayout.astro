@@ -1,0 +1,110 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Cta from '../components/Cta.astro';
+import { articleSchema, breadcrumbSchema } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  keyword: string;
+  url: string;
+  fecha: Date;
+  fechaRevision: Date;
+  categoria: string;
+  autorNombre: string;
+  autorRol: string;
+  autorHref: string;
+  servicioHref: string;
+  servicioLabel: string;
+  tiempoLectura: number;
+  heroImage?: string;
+}
+
+const {
+  title, description, url, fecha, fechaRevision, categoria,
+  autorNombre, autorRol, autorHref, servicioHref, servicioLabel,
+  tiempoLectura, heroImage,
+} = Astro.props;
+
+const breadcrumbItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Recursos', href: '/recursos/' },
+  { name: title, href: url },
+];
+
+const fmt = (d: Date) => d.toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const jsonld = [
+  articleSchema({
+    title, description, url,
+    image: heroImage ?? '/og-default.jpg',
+    fecha, fechaRevision, autorNombre, autorUrl: autorHref,
+  }),
+  breadcrumbSchema(breadcrumbItems),
+];
+---
+
+<BaseLayout title={title} description={description} canonical={url} type="article" image={heroImage} jsonld={jsonld}>
+  <div class="container-wide article-top">
+    <Breadcrumbs items={breadcrumbItems} />
+  </div>
+
+  <article class="container-wide article">
+    <header class="article-header">
+      <p class="article-cat">{categoria}</p>
+      <h1>{title}</h1>
+      <div class="article-meta">
+        <a href={autorHref} class="article-author">
+          <span class="author-name">{autorNombre}</span>
+          <span class="author-rol">{autorRol}</span>
+        </a>
+        <span class="article-dates">
+          Publicado el {fmt(fecha)} · Revisado el {fmt(fechaRevision)} · {tiempoLectura} min de lectura
+        </span>
+      </div>
+    </header>
+
+    <div class="prose-activa article-body">
+      <slot />
+    </div>
+
+    <aside class="article-cta-service">
+      <p>¿Necesitas apoyo profesional con este tema?</p>
+      <a href={servicioHref}>Conoce nuestro servicio de {servicioLabel} →</a>
+    </aside>
+
+    <p class="article-disclaimer">
+      Este contenido es educativo y no reemplaza una evaluación profesional. Si necesitas
+      ayuda, <a href="/contacto/">escríbenos</a>. En caso de crisis, comunícate con la
+      <strong> Línea 113 (opción 5)</strong> del MINSA.
+    </p>
+  </article>
+
+  <Cta titulo="¿Conversamos?" texto="Nuestro equipo puede acompañarte, presencial o en línea." />
+</BaseLayout>
+
+<style>
+  .article-top { padding-top: 1.25rem; }
+  .article { max-width: 760px; padding-top: 1rem; }
+  .article-cat {
+    text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.78rem;
+    font-weight: 800; color: var(--color-primary-dark);
+  }
+  .article-header h1 { font-size: clamp(1.9rem, 4.5vw, 2.7rem); margin-top: 0.5rem; }
+  .article-meta { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; align-items: center; margin-top: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--color-border); }
+  .article-author { display: flex; flex-direction: column; }
+  .author-name { font-weight: 700; color: var(--color-primary-dark); }
+  .author-rol { font-size: 0.82rem; color: var(--color-text-muted); }
+  .article-dates { font-size: 0.82rem; color: var(--color-text-muted); }
+  .article-body { margin-top: 1.75rem; }
+  .article-cta-service {
+    margin-top: 2.5rem; padding: 1.5rem; border-radius: var(--radius);
+    background: color-mix(in srgb, var(--color-primary-light) 15%, var(--color-surface));
+    border: 1px solid var(--color-border);
+  }
+  .article-cta-service p { font-weight: 700; margin-bottom: 0.4rem; }
+  .article-cta-service a { color: var(--color-primary-dark); font-weight: 700; text-decoration: underline; }
+  .article-disclaimer { margin-top: 2rem; font-size: 0.82rem; color: var(--color-text-muted); }
+  .article-disclaimer a { color: var(--color-primary-dark); text-decoration: underline; }
+</style>

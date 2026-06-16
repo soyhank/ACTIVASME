@@ -1,0 +1,57 @@
+---
+import { CONDICIONES } from '../lib/nav';
+
+interface Props {
+  titulo?: string;
+  intro?: string;
+}
+const {
+  titulo = '¿Qué podemos abordar juntos?',
+  intro = 'Acompañamos una amplia variedad de motivos de consulta, siempre desde el respeto y la evidencia.',
+} = Astro.props;
+---
+
+<section class="conditions">
+  <div class="container-wide">
+    <h2>{titulo}</h2>
+    <p class="conditions-intro">{intro}</p>
+    <ul class="conditions-grid">
+      {
+        CONDICIONES.map((c) => (
+          <li>
+            <a href={c.href}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              {c.nombre}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .conditions { padding: 3rem 0; }
+  .conditions h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+  .conditions-intro { color: var(--color-text-muted); margin: 0.5rem 0 1.5rem; max-width: 60ch; }
+  .conditions-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.6rem;
+  }
+  .conditions-grid a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .conditions-grid a:hover { border-color: var(--color-primary-light); transform: translateX(2px); }
+  .conditions-grid svg { color: var(--color-primary); flex: none; }
+</style>

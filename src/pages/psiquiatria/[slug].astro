@@ -1,0 +1,54 @@
+---
+import { getCollection, render } from 'astro:content';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import { servicioHref, servicioTitulo } from '../../lib/nav';
+
+export async function getStaticPaths() {
+  const items = (await getCollection('servicios')).filter(
+    (s) => s.data.pilar === 'psiquiatria' && !s.data.draft,
+  );
+  return items.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const url = `/psiquiatria/${entry.id}/`;
+const { Content } = await render(entry);
+
+const equipo = await getCollection('especialistas');
+const especialistas = d.especialistas
+  .map((slug) => equipo.find((e) => e.id === slug))
+  .filter(Boolean)
+  .map((e) => ({
+    nombre: e!.data.nombre,
+    rol: e!.data.rol,
+    foto: e!.data.foto,
+    modalidad: e!.data.modalidad,
+    href: `/especialistas/${e!.id}/`,
+  }));
+
+const relacionados = d.relacionados.map((slug) => ({
+  titulo: servicioTitulo(slug),
+  href: servicioHref(slug),
+}));
+---
+
+<ServiceLayout
+  title={d.title}
+  h1={d.h1}
+  description={d.description}
+  intro={d.intro}
+  keyword={d.keyword}
+  modalidad={d.modalidad}
+  enfoques={d.enfoques}
+  faq={d.faq}
+  schemaType={d.schemaType}
+  ultimaRevision={d.ultimaRevision}
+  pilarLabel="Psiquiatría"
+  pilarHref="/psiquiatria/"
+  url={url}
+  especialistas={especialistas}
+  relacionados={relacionados}
+>
+  <Content />
+</ServiceLayout>

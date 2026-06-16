@@ -1,0 +1,167 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Cta from '../components/Cta.astro';
+import { whatsappEspecialista } from '../lib/whatsapp';
+import { breadcrumbSchema, specialistSchema } from '../lib/schema';
+
+interface Props {
+  nombre: string;
+  rol: string;
+  tipo: 'psicologo' | 'psiquiatra';
+  credenciales: string;
+  enfoques: string[];
+  areas: { nombre: string; href?: string }[];
+  modalidad: string;
+  foto: string;
+  numeroColegiatura: string;
+  url: string;
+  description: string;
+  articulos: { title: string; href: string }[];
+}
+
+const {
+  nombre, rol, tipo, credenciales, enfoques, areas, modalidad, foto,
+  numeroColegiatura, url, description, articulos,
+} = Astro.props;
+
+const breadcrumbItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Especialistas', href: '/especialistas/' },
+  { name: nombre, href: url },
+];
+
+const waHref = whatsappEspecialista(nombre);
+const colegio = tipo === 'psiquiatra' ? 'CMP' : 'CPsP';
+const modalidadLabel =
+  modalidad === 'virtual' ? 'Atención online' : modalidad === 'presencial' ? 'Atención presencial' : 'Presencial y online';
+
+const jsonld = [
+  specialistSchema({ nombre, rol, tipo, foto, url, enfoques }),
+  breadcrumbSchema(breadcrumbItems),
+];
+---
+
+<BaseLayout title={nombre} description={description} canonical={url} jsonld={jsonld} whatsappMensaje={`¡Hola! Quisiera agendar una cita con ${nombre}.`}>
+  <div class="container-wide spec-top">
+    <Breadcrumbs items={breadcrumbItems} />
+  </div>
+
+  <section class="container-wide spec-profile">
+    <div class="spec-aside">
+      <div class="spec-photo">
+        <img src={foto} width="360" height="360" alt={`Foto de ${nombre}`} />
+      </div>
+      <a class="spec-cta" href={waHref} target="_blank" rel="noopener">Agenda con {nombre.split(' ')[0]}</a>
+      <span class="spec-modalidad">{modalidadLabel}</span>
+    </div>
+
+    <div class="spec-main">
+      <p class="spec-eyebrow">{rol}</p>
+      <h1>{nombre}</h1>
+      {credenciales && <p class="spec-cred">{credenciales}</p>}
+
+      <p class="spec-colegiatura">
+        N.° de colegiatura ({colegio}):
+        <strong>{numeroColegiatura === 'TODO' ? 'pendiente de publicar' : numeroColegiatura}</strong>
+      </p>
+
+      {
+        enfoques.length > 0 && (
+          <div class="spec-block">
+            <h2>Enfoques</h2>
+            <ul class="chip-list">
+              {enfoques.map((e) => <li class="chip">{e}</li>)}
+            </ul>
+          </div>
+        )
+      }
+
+      <div class="spec-block prose-activa">
+        <slot />
+      </div>
+
+      {
+        areas.length > 0 && (
+          <div class="spec-block">
+            <h2>Áreas que atiende</h2>
+            <ul class="area-list">
+              {areas.map((a) =>
+                a.href ? (
+                  <li><a href={a.href}>{a.nombre}</a></li>
+                ) : (
+                  <li><span>{a.nombre}</span></li>
+                ),
+              )}
+            </ul>
+          </div>
+        )
+      }
+
+      {
+        articulos.length > 0 && (
+          <div class="spec-block">
+            <h2>Artículos de {nombre.split(' ')[0]}</h2>
+            <ul class="article-list">
+              {articulos.map((a) => <li><a href={a.href}>{a.title}</a></li>)}
+            </ul>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <Cta mensaje={`¡Hola! Quisiera agendar una cita con ${nombre}.`} />
+</BaseLayout>
+
+<style>
+  .spec-top { padding-top: 1.25rem; }
+  .spec-profile {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2.5rem;
+    padding-top: 1rem;
+    align-items: start;
+  }
+  .spec-aside { position: sticky; top: 90px; display: flex; flex-direction: column; gap: 0.8rem; }
+  .spec-photo {
+    aspect-ratio: 1 / 1; border-radius: var(--radius-lg); overflow: hidden;
+    background: color-mix(in srgb, var(--color-primary-light) 25%, var(--color-surface));
+    box-shadow: var(--shadow);
+  }
+  .spec-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .spec-cta {
+    text-align: center; background: var(--color-accent); color: var(--color-on-accent);
+    padding: 0.85rem 1.2rem; border-radius: 999px; font-weight: 800;
+  }
+  .spec-cta:hover { background: var(--color-accent-dark); }
+  .spec-modalidad { text-align: center; color: var(--color-primary-dark); font-weight: 600; font-size: 0.9rem; }
+
+  .spec-eyebrow { text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; color: var(--color-primary-dark); font-size: 0.8rem; }
+  .spec-main h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-top: 0.3rem; }
+  .spec-cred { color: var(--color-text-muted); margin-top: 0.6rem; }
+  .spec-colegiatura {
+    margin-top: 1rem; font-size: 0.9rem; color: var(--color-text-muted);
+    background: var(--color-bg); border: 1px dashed var(--color-border);
+    padding: 0.6rem 0.9rem; border-radius: 10px; display: inline-block;
+  }
+  .spec-block { margin-top: 1.8rem; }
+  .spec-block h2 { font-size: 1.3rem; margin-bottom: 0.8rem; }
+  .chip-list { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chip {
+    background: color-mix(in srgb, var(--color-primary-light) 25%, var(--color-surface));
+    color: var(--color-primary-dark); font-weight: 700; font-size: 0.85rem;
+    padding: 0.3rem 0.8rem; border-radius: 999px;
+  }
+  .area-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.4rem; }
+  .area-list a { color: var(--color-primary-dark); text-decoration: underline; text-underline-offset: 3px; }
+  .area-list span { color: var(--color-text); }
+  .article-list { list-style: disc; padding-left: 1.2rem; }
+  .article-list a { color: var(--color-primary-dark); text-decoration: underline; }
+
+  @media (max-width: 760px) {
+    .spec-profile { grid-template-columns: 1fr; }
+    .spec-aside { position: static; flex-direction: row; align-items: center; }
+    .spec-photo { width: 140px; flex: none; }
+  }
+</style>

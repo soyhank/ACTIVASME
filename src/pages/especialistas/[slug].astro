@@ -1,0 +1,46 @@
+---
+import { getCollection, render } from 'astro:content';
+import SpecialistLayout from '../../layouts/SpecialistLayout.astro';
+import { servicioHref } from '../../lib/nav';
+
+export async function getStaticPaths() {
+  const items = await getCollection('especialistas');
+  return items.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const url = `/especialistas/${entry.id}/`;
+const { Content } = await render(entry);
+
+const areas = d.areas.map((a) => ({
+  nombre: a.nombre,
+  href: a.servicio ? servicioHref(a.servicio) : undefined,
+}));
+
+const articulos = (await getCollection('recursos'))
+  .filter((r) => r.data.autor === entry.id && !r.data.draft)
+  .map((r) => ({ title: r.data.title, href: `/recursos/${r.id}/` }));
+
+const tipoLabel = d.tipo === 'psiquiatra' ? 'médico psiquiatra' : 'psicólogo(a)';
+const description = `${d.nombre}, ${d.rol} en ACTIVA. ${tipoLabel} en Lima con atención ${
+  d.modalidad === 'virtual' ? 'online' : d.modalidad === 'presencial' ? 'presencial' : 'presencial y online'
+}. Agenda tu cita.`;
+---
+
+<SpecialistLayout
+  nombre={d.nombre}
+  rol={d.rol}
+  tipo={d.tipo}
+  credenciales={d.credenciales}
+  enfoques={d.enfoques}
+  areas={areas}
+  modalidad={d.modalidad}
+  foto={d.foto}
+  numeroColegiatura={d.numeroColegiatura}
+  url={url}
+  description={description}
+  articulos={articulos}
+>
+  <Content />
+</SpecialistLayout>

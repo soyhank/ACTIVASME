@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const title = 'Aviso médico';
+const description =
+  'Aviso médico de ACTIVA Mental Health & Wellness. La información del sitio es educativa y no reemplaza la consulta profesional. Recursos de ayuda en crisis.';
+const url = '/aviso-medico/';
+const breadcrumbItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Aviso médico', href: url },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={url} jsonld={[breadcrumbSchema(breadcrumbItems)]}>
+  <div class="container-wide legal-top">
+    <Breadcrumbs items={breadcrumbItems} />
+  </div>
+  <article class="container-wide legal prose-activa">
+    <h1>Aviso médico</h1>
+
+    <div class="legal-alert">
+      <strong>¿Estás en una crisis o emergencia?</strong> Si tú o alguien más está en
+      peligro o con pensamientos de hacerse daño, busca ayuda de inmediato: comunícate con
+      la <strong>Línea 113, opción 5</strong> (salud mental) del MINSA, acude al servicio de
+      emergencia más cercano o llama a los servicios de emergencia.
+    </div>
+
+    <h2>Información de carácter educativo</h2>
+    <p>
+      El contenido de este sitio web tiene una finalidad <strong>informativa y
+      educativa</strong>. No constituye un diagnóstico, un tratamiento ni una recomendación
+      médica o psicológica individual, y <strong>no reemplaza</strong> la consulta con un
+      profesional de la salud debidamente colegiado.
+    </p>
+
+    <h2>Relación profesional-paciente</h2>
+    <p>
+      La lectura de esta web no establece una relación profesional-paciente. Dicha relación
+      se inicia únicamente tras una evaluación realizada por uno de nuestros profesionales en
+      el marco de una consulta. Ante cualquier síntoma o duda sobre tu salud, consulta con un
+      profesional.
+    </p>
+
+    <h2>Sobre nuestros profesionales</h2>
+    <p>
+      Nuestro equipo está conformado por psicólogos y médicos psiquiatras. Los números de
+      colegiatura (CPsP para psicólogos y CMP para médicos) se publican en cada perfil
+      conforme se confirman. <em>(Datos en proceso de verificación.)</em>
+    </p>
+
+    <h2>Contenido y evidencia</h2>
+    <p>
+      Procuramos que la información publicada sea cuidadosa y esté alineada con fuentes
+      oficiales como el <strong>MINSA</strong> y la <strong>OMS</strong>. Aun así, la
+      información general puede no aplicar a tu caso particular.
+    </p>
+
+    <p class="legal-rev">Última actualización: junio de 2026.</p>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal-top { padding-top: 1.25rem; }
+  .legal { max-width: 760px; padding: 1.5rem 1.25rem 2rem; }
+  .legal h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: 1rem; }
+  .legal-alert { background: #fff7ed; border: 1px solid #fed7aa; color: #7c2d12; padding: 1rem 1.25rem; border-radius: var(--radius); margin-bottom: 1.5rem; }
+  .legal-rev { font-size: 0.82rem; color: var(--color-text-muted); margin-top: 2rem; }
+</style>

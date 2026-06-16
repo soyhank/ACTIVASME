@@ -1,418 +1,180 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ConditionGrid from '../components/ConditionGrid.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import SpecialistCard from '../components/SpecialistCard.astro';
+import Cta from '../components/Cta.astro';
+import { SITE } from '../lib/site';
+import { whatsappLink } from '../lib/whatsapp';
+import { medicalClinicSchema } from '../lib/schema';
 
-const features = [
-  {
-    icon: "📊",
-    title: "Seguimiento de ánimo",
-    text: "Registra cómo te sientes cada día y descubre patrones en tu bienestar emocional con gráficos claros.",
-  },
-  {
-    icon: "🧘",
-    title: "Ejercicios guiados",
-    text: "Respiración, mindfulness y técnicas de relajación basadas en evidencia, listas para cuando las necesites.",
-  },
-  {
-    icon: "📚",
-    title: "Recursos confiables",
-    text: "Artículos y guías revisadas sobre ansiedad, estrés, sueño y autocuidado, en lenguaje cercano.",
-  },
-  {
-    icon: "🤝",
-    title: "Apoyo cercano",
-    text: "Conecta con una red de acompañamiento y accede a líneas de ayuda profesional cuando lo necesites.",
-  },
+const equipo = (await getCollection('especialistas'))
+  .filter((e) => !e.data.draft)
+  .sort((a, b) => a.data.orden - b.data.orden)
+  .slice(0, 4)
+  .map((e) => ({
+    nombre: e.data.nombre,
+    rol: e.data.rol,
+    foto: e.data.foto,
+    modalidad: e.data.modalidad,
+    href: `/especialistas/${e.id}/`,
+  }));
+
+const waHref = whatsappLink();
+const title = 'Psicólogos y psiquiatras en Lima';
+const description =
+  'Centro de salud mental en Lima: terapia psicológica y psiquiatría, presencial y online, para todo el Perú. Atención cálida y basada en evidencia. Agenda por WhatsApp.';
+
+const pilares = [
+  { titulo: 'Psicología', href: '/psicologia/', descripcion: 'Psicoterapia individual, de pareja y familiar, evaluaciones y más, con enfoques basados en evidencia.' },
+  { titulo: 'Psiquiatría', href: '/psiquiatria/', descripcion: 'Evaluación y tratamiento médico de la salud mental para niños, adolescentes, adultos y adultos mayores.' },
+  { titulo: 'Terapia online', href: '/terapia-online/', descripcion: 'El mismo equipo terapéutico, estés donde estés en el Perú o el extranjero.' },
+  { titulo: 'Para empresas', href: '/empresas/', descripcion: 'Salud mental ocupacional, telesalud y programas de bienestar laboral.' },
 ];
 
-const steps = [
-  {
-    n: "01",
-    title: "Regístrate gratis",
-    text: "Crea tu espacio seguro y privado en menos de un minuto.",
-  },
-  {
-    n: "02",
-    title: "Cuéntanos cómo estás",
-    text: "Haz tu check-in diario de ánimo y recibe sugerencias personalizadas.",
-  },
-  {
-    n: "03",
-    title: "Actívate cada día",
-    text: "Sigue tus hábitos, ejercicios y progreso hacia un mejor bienestar.",
-  },
+const porQue = [
+  { t: 'Equipo profesional colegiado', d: 'Psicólogos y médicos psiquiatras con formación clínica y trato humano.' },
+  { t: 'Presencial y online', d: 'Elige la modalidad que mejor se adapte a tu vida, en Lima o desde cualquier lugar.' },
+  { t: 'Enfoque basado en evidencia', d: 'TCC, ACT, DBT y otros enfoques con respaldo científico, adaptados a ti.' },
+  { t: 'Acompañamiento integral', d: 'Coordinamos psicología y psiquiatría para una atención integrada.' },
 ];
 ---
 
-<Layout>
-  <!-- Header -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="/" class="logo" aria-label="ACTIVASME inicio">
-        <span class="logo-mark" aria-hidden="true">✦</span>
-        <span class="logo-text">ACTIVAS<strong>ME</strong></span>
-      </a>
-      <nav aria-label="Navegación principal">
-        <a href="#caracteristicas">Características</a>
-        <a href="#como-funciona">Cómo funciona</a>
-        <a href="#empezar" class="btn btn-sm">Empezar</a>
-      </nav>
+<BaseLayout title={title} description={description} canonical="/" jsonld={[medicalClinicSchema()]}>
+  <!-- HERO -->
+  <section class="home-hero">
+    <div class="container-wide home-hero-inner">
+      <div class="home-hero-text">
+        <p class="hero-eyebrow">Salud mental en Lima · presencial y online</p>
+        <h1>Cuida tu salud mental con un equipo que te escucha</h1>
+        <p class="hero-lead">
+          En {SITE.shortName} acompañamos tu bienestar con <strong>psicología y psiquiatría</strong>,
+          de forma presencial en Lima o en línea para todo el Perú. Atención cálida,
+          profesional y basada en evidencia.
+        </p>
+        <div class="hero-actions">
+          <a class="btn-accent-lg" href={waHref} target="_blank" rel="noopener">Agenda tu cita por WhatsApp</a>
+          <a class="btn-ghost-lg" href="/especialistas/">Conoce al equipo</a>
+        </div>
+        <p class="hero-slogan">«{SITE.slogan}»</p>
+      </div>
+      <div class="home-hero-card" aria-hidden="true">
+        <div class="hero-badge">
+          <span class="hero-badge-num">+8</span>
+          <span>años acompañando la salud mental en el Perú</span>
+        </div>
+        <ul class="hero-points">
+          <li>Niños, adolescentes, adultos y adultos mayores</li>
+          <li>Citas presenciales y por videollamada</li>
+          <li>Psicología + psiquiatría coordinadas</li>
+        </ul>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero">
-      <div class="container hero-inner">
-        <p class="eyebrow">Tu salud mental, primero</p>
-        <h1>Activa tu bienestar emocional, un día a la vez</h1>
-        <p class="lead">
-          ACTIVASME te acompaña a cuidar tu salud mental con seguimiento de
-          ánimo, ejercicios guiados y recursos confiables. Pequeños pasos,
-          grandes cambios.
-        </p>
-        <div class="hero-cta">
-          <a href="#empezar" class="btn">Comenzar gratis</a>
-          <a href="#como-funciona" class="btn btn-ghost">Cómo funciona</a>
-        </div>
-        <p class="hero-note">
-          Privado y seguro · Sin juicios · Hecho con base en evidencia
-        </p>
+  <!-- PILARES / SERVICIOS DESTACADOS -->
+  <section class="home-section">
+    <div class="container-wide">
+      <h2 class="section-title">¿Cómo podemos ayudarte?</h2>
+      <p class="section-sub">Servicios pensados para acompañarte en cada etapa.</p>
+      <div class="pillar-grid">
+        {pilares.map((p) => <ServiceCard titulo={p.titulo} href={p.href} descripcion={p.descripcion} />)}
       </div>
-    </section>
-
-    <!-- Características -->
-    <section id="caracteristicas" class="section">
-      <div class="container">
-        <h2 class="section-title">Todo lo que necesitas para sentirte mejor</h2>
-        <p class="section-subtitle">
-          Herramientas simples y humanas para acompañarte en tu día a día.
-        </p>
-        <div class="grid">
-          {
-            features.map((f) => (
-              <article class="card">
-                <span class="card-icon" aria-hidden="true">
-                  {f.icon}
-                </span>
-                <h3>{f.title}</h3>
-                <p>{f.text}</p>
-              </article>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-
-    <!-- Cómo funciona -->
-    <section id="como-funciona" class="section section-alt">
-      <div class="container">
-        <h2 class="section-title">Empieza en tres pasos</h2>
-        <div class="steps">
-          {
-            steps.map((s) => (
-              <div class="step">
-                <span class="step-n">{s.n}</span>
-                <h3>{s.title}</h3>
-                <p>{s.text}</p>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section id="empezar" class="cta">
-      <div class="container cta-inner">
-        <h2>Tu bienestar empieza hoy</h2>
-        <p>
-          Únete a ACTIVASME y da el primer paso hacia una mente más sana y
-          activa. Es gratis empezar.
-        </p>
-        <a href="#" class="btn btn-light">Crear mi cuenta</a>
-      </div>
-    </section>
-
-    <!-- Línea de ayuda -->
-    <section class="helpline">
-      <div class="container">
-        <p>
-          <strong>¿Estás en crisis o necesitas ayuda urgente?</strong>
-          Si tú o alguien que conoces está en peligro, busca ayuda profesional de
-          inmediato o contacta la línea de emergencia de salud mental de tu país.
-          ACTIVASME es un apoyo al bienestar y no sustituye la atención médica
-          profesional.
-        </p>
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <span class="logo-text">ACTIVAS<strong>ME</strong></span>
-      <p>© 2026 ACTIVASME · Cuidando tu salud mental.</p>
     </div>
-  </footer>
-</Layout>
+  </section>
+
+  <!-- CONDICIONES -->
+  <ConditionGrid />
+
+  <!-- POR QUÉ ACTIVA -->
+  <section class="home-section home-why">
+    <div class="container-wide">
+      <h2 class="section-title">Por qué elegir {SITE.shortName}</h2>
+      <div class="why-grid">
+        {porQue.map((p) => (
+          <div class="why-card">
+            <span class="why-check" aria-hidden="true">✓</span>
+            <h3>{p.t}</h3>
+            <p>{p.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPO -->
+  {
+    equipo.length > 0 && (
+      <section class="home-section">
+        <div class="container-wide">
+          <h2 class="section-title">Nuestro equipo</h2>
+          <p class="section-sub">Psicólogos y psiquiatras comprometidos con tu bienestar.</p>
+          <div class="team-grid">
+            {equipo.map((e) => (
+              <SpecialistCard nombre={e.nombre} rol={e.rol} foto={e.foto} href={e.href} modalidad={e.modalidad} />
+            ))}
+          </div>
+          <p class="team-more"><a href="/especialistas/">Ver todo el equipo →</a></p>
+        </div>
+      </section>
+    )
+  }
+
+  <Cta />
+</BaseLayout>
 
 <style>
-  /* Header */
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid #e2e8f0;
+  .home-hero {
+    background: linear-gradient(165deg, color-mix(in srgb, var(--color-primary-light) 22%, var(--color-bg)), var(--color-bg) 65%);
+    padding: 3.5rem 0 3rem;
   }
-  .header-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 68px;
+  .home-hero-inner { display: grid; grid-template-columns: 1.3fr 0.9fr; gap: 2.5rem; align-items: center; }
+  .hero-eyebrow { text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem; font-weight: 800; color: var(--color-primary-dark); }
+  .home-hero h1 { font-size: clamp(2.1rem, 5vw, 3.3rem); margin-top: 0.7rem; }
+  .hero-lead { font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--color-text-muted); max-width: 56ch; margin-top: 1.1rem; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.75rem; }
+  .btn-accent-lg {
+    background: var(--color-accent); color: var(--color-on-accent);
+    padding: 0.95rem 1.7rem; border-radius: 999px; font-weight: 800;
+    transition: background 0.15s ease, transform 0.15s ease;
   }
-  .logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+  .btn-accent-lg:hover { background: var(--color-accent-dark); transform: translateY(-1px); }
+  .btn-ghost-lg {
+    padding: 0.95rem 1.5rem; border-radius: 999px; font-weight: 700;
+    border: 1.5px solid var(--color-primary); color: var(--color-primary-dark);
   }
-  .logo-mark {
-    color: var(--teal-600);
-    font-size: 1.4rem;
-  }
-  .logo-text strong {
-    color: var(--teal-600);
-  }
-  nav {
-    display: flex;
-    align-items: center;
-    gap: 1.75rem;
-    font-size: 0.95rem;
-  }
-  nav a:not(.btn):hover {
-    color: var(--teal-600);
-  }
+  .btn-ghost-lg:hover { background: color-mix(in srgb, var(--color-primary-light) 20%, transparent); }
+  .hero-slogan { margin-top: 1.5rem; font-style: italic; color: var(--color-primary-dark); font-weight: 600; }
 
-  /* Botones */
-  .btn {
-    display: inline-block;
-    background: var(--teal-600);
-    color: #fff;
-    padding: 0.85rem 1.6rem;
-    border-radius: 999px;
-    font-weight: 600;
-    transition:
-      transform 0.15s ease,
-      background 0.15s ease;
+  .home-hero-card {
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg); padding: 1.75rem; box-shadow: var(--shadow);
   }
-  .btn:hover {
-    background: var(--teal-700);
-    transform: translateY(-1px);
-  }
-  .btn-sm {
-    padding: 0.55rem 1.1rem;
-    font-size: 0.9rem;
-  }
-  .btn-ghost {
-    background: transparent;
-    color: var(--teal-700);
-    border: 1px solid var(--teal-600);
-  }
-  .btn-ghost:hover {
-    background: var(--teal-50);
-  }
-  .btn-light {
-    background: #fff;
-    color: var(--teal-700);
-  }
-  .btn-light:hover {
-    background: var(--teal-50);
-  }
+  .hero-badge { display: flex; align-items: center; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--color-border); }
+  .hero-badge-num { font-family: var(--font-display); font-size: 2.4rem; font-weight: 800; color: var(--color-primary); line-height: 1; }
+  .hero-badge span:last-child { color: var(--color-text-muted); font-size: 0.95rem; }
+  .hero-points { list-style: none; margin-top: 1rem; display: grid; gap: 0.6rem; }
+  .hero-points li { position: relative; padding-left: 1.6rem; color: var(--color-text); }
+  .hero-points li::before { content: '✓'; position: absolute; left: 0; color: var(--color-primary); font-weight: 800; }
 
-  /* Hero */
-  .hero {
-    background: linear-gradient(180deg, var(--teal-50) 0%, #ffffff 100%);
-    padding: 5rem 0 4rem;
-    text-align: center;
-  }
-  .eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--teal-600);
-    margin-bottom: 1rem;
-  }
-  .hero h1 {
-    font-size: clamp(2.1rem, 5vw, 3.4rem);
-    line-height: 1.1;
-    font-weight: 800;
-    max-width: 16ch;
-    margin: 0 auto 1.25rem;
-    letter-spacing: -0.02em;
-  }
-  .lead {
-    font-size: clamp(1.05rem, 2vw, 1.25rem);
-    color: var(--slate-600);
-    max-width: 60ch;
-    margin: 0 auto 2rem;
-  }
-  .hero-cta {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .hero-note {
-    margin-top: 1.75rem;
-    font-size: 0.9rem;
-    color: var(--slate-400);
-  }
+  .home-section { padding: 3rem 0; }
+  .section-title { font-size: clamp(1.6rem, 3.5vw, 2.2rem); }
+  .section-sub { color: var(--color-text-muted); margin: 0.5rem 0 1.75rem; max-width: 60ch; }
+  .pillar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
 
-  /* Secciones */
-  .section {
-    padding: 4.5rem 0;
-  }
-  .section-alt {
-    background: var(--teal-50);
-  }
-  .section-title {
-    font-size: clamp(1.7rem, 3.5vw, 2.3rem);
-    text-align: center;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-  }
-  .section-subtitle {
-    text-align: center;
-    color: var(--slate-600);
-    margin-top: 0.75rem;
-    margin-bottom: 2.5rem;
-  }
+  .home-why { background: color-mix(in srgb, var(--color-primary-light) 12%, var(--color-bg)); }
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.25rem; }
+  .why-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.5rem; }
+  .why-check { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; background: var(--color-primary); color: #fff; font-weight: 800; margin-bottom: 0.6rem; }
+  .why-card h3 { font-size: 1.05rem; }
+  .why-card p { color: var(--color-text-muted); font-size: 0.92rem; margin-top: 0.3rem; }
 
-  /* Cards */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
-  }
-  .card {
-    background: #fff;
-    border: 1px solid #e2e8f0;
-    border-radius: 18px;
-    padding: 1.75rem;
-    transition:
-      transform 0.15s ease,
-      box-shadow 0.15s ease;
-  }
-  .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(13, 148, 136, 0.12);
-  }
-  .card-icon {
-    font-size: 2rem;
-    display: block;
-    margin-bottom: 0.85rem;
-  }
-  .card h3 {
-    font-size: 1.15rem;
-    margin-bottom: 0.5rem;
-  }
-  .card p {
-    color: var(--slate-600);
-    font-size: 0.97rem;
-  }
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.25rem; }
+  .team-more { margin-top: 1.5rem; }
+  .team-more a { color: var(--color-primary-dark); font-weight: 700; }
 
-  /* Pasos */
-  .steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 2rem;
-  }
-  .step {
-    text-align: center;
-    padding: 1rem;
-  }
-  .step-n {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: var(--teal-600);
-    color: #fff;
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-  }
-  .step h3 {
-    margin-bottom: 0.4rem;
-  }
-  .step p {
-    color: var(--slate-600);
-  }
-
-  /* CTA */
-  .cta {
-    background: linear-gradient(135deg, var(--teal-600), var(--teal-700));
-    color: #fff;
-    padding: 4.5rem 0;
-    text-align: center;
-  }
-  .cta h2 {
-    font-size: clamp(1.7rem, 3.5vw, 2.3rem);
-    font-weight: 800;
-  }
-  .cta p {
-    max-width: 52ch;
-    margin: 1rem auto 2rem;
-    opacity: 0.92;
-  }
-
-  /* Helpline */
-  .helpline {
-    background: #fff7ed;
-    border-top: 1px solid #fed7aa;
-    border-bottom: 1px solid #fed7aa;
-    padding: 1.75rem 0;
-  }
-  .helpline p {
-    font-size: 0.92rem;
-    color: #7c2d12;
-    text-align: center;
-    max-width: 80ch;
-    margin: 0 auto;
-  }
-
-  /* Footer */
-  .site-footer {
-    padding: 2.5rem 0;
-    background: var(--ink);
-    color: #cbd5e1;
-  }
-  .footer-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  .footer-inner .logo-text strong {
-    color: var(--teal-500);
-  }
-  .footer-inner p {
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 560px) {
-    nav {
-      gap: 1rem;
-    }
-    nav a:not(.btn) {
-      display: none;
-    }
+  @media (max-width: 860px) {
+    .home-hero-inner { grid-template-columns: 1fr; }
   }
 </style>

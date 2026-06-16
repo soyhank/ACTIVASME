@@ -1,0 +1,42 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import { servicioHref, servicioTitulo } from '../../lib/nav';
+
+export async function getStaticPaths() {
+  const items = (await getCollection('recursos')).filter((r) => !r.data.draft);
+  return items.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const url = `/recursos/${entry.id}/`;
+const { Content } = await render(entry);
+
+const autor = await getEntry('especialistas', d.autor);
+const autorNombre = autor?.data.nombre ?? 'Equipo de Activa';
+const autorRol = autor?.data.rol ?? 'ACTIVA Mental Health & Wellness';
+const autorHref = autor ? `/especialistas/${autor.id}/` : '/especialistas/';
+
+const palabras = entry.body ? entry.body.trim().split(/\s+/).length : 0;
+const tiempoLectura = Math.max(1, Math.round(palabras / 200));
+---
+
+<BlogLayout
+  title={d.title}
+  description={d.description}
+  keyword={d.keyword}
+  url={url}
+  fecha={d.fecha}
+  fechaRevision={d.fechaRevision}
+  categoria={d.categoria}
+  autorNombre={autorNombre}
+  autorRol={autorRol}
+  autorHref={autorHref}
+  servicioHref={servicioHref(d.servicioRelacionado)}
+  servicioLabel={servicioTitulo(d.servicioRelacionado)}
+  tiempoLectura={tiempoLectura}
+  heroImage={d.heroImage}
+>
+  <Content />
+</BlogLayout>

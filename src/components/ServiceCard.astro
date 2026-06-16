@@ -1,0 +1,52 @@
+---
+interface Props {
+  titulo: string;
+  href: string;
+  descripcion?: string;
+}
+const { titulo, href, descripcion } = Astro.props;
+---
+
+<a class="service-card" href={href}>
+  <span class="service-icon" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path d="M12 21c5-3 8-6.5 8-11a4.5 4.5 0 0 0-8-2.8A4.5 4.5 0 0 0 4 10c0 4.5 3 8 8 11Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </svg>
+  </span>
+  <h3>{titulo}</h3>
+  {descripcion && <p>{descripcion}</p>}
+  <span class="service-more">Conocer más →</span>
+</a>
+
+<style>
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    height: 100%;
+  }
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+    border-color: var(--color-primary-light);
+  }
+  .service-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--color-primary-light) 30%, var(--color-surface));
+    color: var(--color-primary-dark);
+    margin-bottom: 0.3rem;
+  }
+  .service-card h3 { font-size: 1.1rem; }
+  .service-card p { font-size: 0.92rem; color: var(--color-text-muted); }
+  .service-more { margin-top: auto; padding-top: 0.5rem; color: var(--color-primary-dark); font-weight: 700; font-size: 0.9rem; }
+</style>

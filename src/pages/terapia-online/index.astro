@@ -1,0 +1,133 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { whatsappLink } from '../../lib/whatsapp';
+import { breadcrumbSchema, faqSchema, serviceSchema } from '../../lib/schema';
+
+const title = 'Terapia psicológica online en Perú';
+const description =
+  'Terapia psicológica y psiquiatría online en Perú. Atiéndete por videollamada con el mismo equipo de Activa, estés donde estés. Agenda tu cita por WhatsApp.';
+const url = '/terapia-online/';
+const breadcrumbItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Terapia online', href: url },
+];
+const waHref = whatsappLink('¡Hola! Quisiera información sobre la terapia online.');
+
+const beneficios = [
+  { t: 'Desde donde estés', d: 'Conéctate desde tu casa o tu trabajo, en cualquier región del Perú o en el extranjero.' },
+  { t: 'El mismo equipo', d: 'Atiendes con los mismos psicólogos y psiquiatras, con la misma calidad profesional.' },
+  { t: 'Cómodo y privado', d: 'Sin traslados ni salas de espera. Solo necesitas un espacio tranquilo y conexión a internet.' },
+  { t: 'Flexible', d: 'Horarios que se adaptan mejor a tu rutina y a tus tiempos.' },
+];
+
+const pasos = [
+  { n: '1', t: 'Escríbenos por WhatsApp', d: 'Cuéntanos brevemente qué necesitas y coordinamos tu cita.' },
+  { n: '2', t: 'Agenda tu sesión', d: 'Eliges al especialista y el horario que mejor te convenga.' },
+  { n: '3', t: 'Conéctate por videollamada', d: 'Recibes el enlace y te atiendes desde donde estés.' },
+];
+
+const faq = [
+  {
+    pregunta: '¿La terapia online es tan efectiva como la presencial?',
+    respuesta:
+      'La evidencia muestra que, para muchos motivos de consulta, la terapia online puede ser tan efectiva como la presencial. Lo importante es el vínculo terapéutico y la constancia, que se mantienen en ambas modalidades.',
+  },
+  {
+    pregunta: '¿Qué necesito para una sesión online?',
+    respuesta:
+      'Un dispositivo con cámara y micrófono, conexión a internet estable y un espacio privado y tranquilo donde te sientas cómodo para conversar.',
+  },
+  {
+    pregunta: '¿Puedo recibir atención psiquiátrica online?',
+    respuesta:
+      'Sí. La telepsiquiatría permite la evaluación y el seguimiento por videollamada. Según el caso, el psiquiatra te indicará si se requiere alguna atención presencial.',
+  },
+  {
+    pregunta: '¿Atienden a peruanos en el extranjero?',
+    respuesta:
+      'Sí. Acompañamos a personas que viven fuera del país y desean atenderse en español con un equipo de confianza.',
+  },
+];
+
+const jsonld = [
+  serviceSchema({ nombre: 'Terapia psicológica y psiquiatría online', descripcion: description, url, tipo: 'MedicalTherapy' }),
+  faqSchema(faq),
+  breadcrumbSchema(breadcrumbItems),
+];
+---
+
+<BaseLayout title={title} description={description} canonical={url} jsonld={jsonld} whatsappMensaje="¡Hola! Quisiera información sobre la terapia online.">
+  <div class="container-wide to-top">
+    <Breadcrumbs items={breadcrumbItems} />
+  </div>
+
+  <section class="to-hero">
+    <div class="container-wide">
+      <p class="to-eyebrow">Atención online</p>
+      <h1>Terapia y psiquiatría online, estés donde estés</h1>
+      <p class="to-lead">
+        Cuida tu salud mental sin importar la distancia. En Activa atiendes por videollamada
+        con el mismo equipo de psicólogos y psiquiatras, en todo el Perú y el extranjero.
+      </p>
+      <a class="to-cta" href={waHref} target="_blank" rel="noopener">Agenda tu cita online</a>
+    </div>
+  </section>
+
+  <section class="container-wide to-section">
+    <h2>Por qué elegir la terapia online</h2>
+    <div class="to-grid">
+      {beneficios.map((b) => (
+        <div class="to-card">
+          <h3>{b.t}</h3>
+          <p>{b.d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="to-steps-band">
+    <div class="container-wide">
+      <h2>Cómo funciona</h2>
+      <div class="to-steps">
+        {pasos.map((p) => (
+          <div class="to-step">
+            <span class="to-step-n">{p.n}</span>
+            <h3>{p.t}</h3>
+            <p>{p.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="container-wide">
+    <Faq items={faq} />
+  </div>
+
+  <Cta mensaje="¡Hola! Quisiera información sobre la terapia online." />
+</BaseLayout>
+
+<style>
+  .to-top { padding-top: 1.25rem; }
+  .to-hero { padding: 0.75rem 0 1.5rem; background: linear-gradient(180deg, color-mix(in srgb, var(--color-primary-light) 18%, var(--color-bg)), var(--color-bg)); }
+  .to-eyebrow { text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800; color: var(--color-primary-dark); font-size: 0.8rem; }
+  .to-hero h1 { font-size: clamp(1.9rem, 4.5vw, 2.9rem); max-width: 20ch; margin-top: 0.5rem; }
+  .to-lead { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--color-text-muted); max-width: 64ch; margin-top: 1rem; }
+  .to-cta { display: inline-block; margin-top: 1.5rem; background: var(--color-accent); color: var(--color-on-accent); padding: 0.85rem 1.6rem; border-radius: 999px; font-weight: 800; }
+  .to-cta:hover { background: var(--color-accent-dark); }
+  .to-section { padding: 3rem 0 1rem; }
+  .to-section h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 1.5rem; }
+  .to-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.25rem; }
+  .to-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.4rem; }
+  .to-card h3 { font-size: 1.05rem; color: var(--color-primary-dark); }
+  .to-card p { color: var(--color-text-muted); font-size: 0.92rem; margin-top: 0.3rem; }
+  .to-steps-band { background: color-mix(in srgb, var(--color-primary-light) 12%, var(--color-bg)); padding: 3rem 0; margin-top: 2rem; }
+  .to-steps-band h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 1.5rem; }
+  .to-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+  .to-step-n { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--color-primary); color: #fff; font-weight: 800; margin-bottom: 0.6rem; }
+  .to-step h3 { font-size: 1.1rem; }
+  .to-step p { color: var(--color-text-muted); margin-top: 0.3rem; }
+</style>
