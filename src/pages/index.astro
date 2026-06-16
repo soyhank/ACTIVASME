@@ -1,0 +1,418 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const features = [
+  {
+    icon: "📊",
+    title: "Seguimiento de ánimo",
+    text: "Registra cómo te sientes cada día y descubre patrones en tu bienestar emocional con gráficos claros.",
+  },
+  {
+    icon: "🧘",
+    title: "Ejercicios guiados",
+    text: "Respiración, mindfulness y técnicas de relajación basadas en evidencia, listas para cuando las necesites.",
+  },
+  {
+    icon: "📚",
+    title: "Recursos confiables",
+    text: "Artículos y guías revisadas sobre ansiedad, estrés, sueño y autocuidado, en lenguaje cercano.",
+  },
+  {
+    icon: "🤝",
+    title: "Apoyo cercano",
+    text: "Conecta con una red de acompañamiento y accede a líneas de ayuda profesional cuando lo necesites.",
+  },
+];
+
+const steps = [
+  {
+    n: "01",
+    title: "Regístrate gratis",
+    text: "Crea tu espacio seguro y privado en menos de un minuto.",
+  },
+  {
+    n: "02",
+    title: "Cuéntanos cómo estás",
+    text: "Haz tu check-in diario de ánimo y recibe sugerencias personalizadas.",
+  },
+  {
+    n: "03",
+    title: "Actívate cada día",
+    text: "Sigue tus hábitos, ejercicios y progreso hacia un mejor bienestar.",
+  },
+];
+---
+
+<Layout>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo" aria-label="ACTIVASME inicio">
+        <span class="logo-mark" aria-hidden="true">✦</span>
+        <span class="logo-text">ACTIVAS<strong>ME</strong></span>
+      </a>
+      <nav aria-label="Navegación principal">
+        <a href="#caracteristicas">Características</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#empezar" class="btn btn-sm">Empezar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <p class="eyebrow">Tu salud mental, primero</p>
+        <h1>Activa tu bienestar emocional, un día a la vez</h1>
+        <p class="lead">
+          ACTIVASME te acompaña a cuidar tu salud mental con seguimiento de
+          ánimo, ejercicios guiados y recursos confiables. Pequeños pasos,
+          grandes cambios.
+        </p>
+        <div class="hero-cta">
+          <a href="#empezar" class="btn">Comenzar gratis</a>
+          <a href="#como-funciona" class="btn btn-ghost">Cómo funciona</a>
+        </div>
+        <p class="hero-note">
+          Privado y seguro · Sin juicios · Hecho con base en evidencia
+        </p>
+      </div>
+    </section>
+
+    <!-- Características -->
+    <section id="caracteristicas" class="section">
+      <div class="container">
+        <h2 class="section-title">Todo lo que necesitas para sentirte mejor</h2>
+        <p class="section-subtitle">
+          Herramientas simples y humanas para acompañarte en tu día a día.
+        </p>
+        <div class="grid">
+          {
+            features.map((f) => (
+              <article class="card">
+                <span class="card-icon" aria-hidden="true">
+                  {f.icon}
+                </span>
+                <h3>{f.title}</h3>
+                <p>{f.text}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Cómo funciona -->
+    <section id="como-funciona" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title">Empieza en tres pasos</h2>
+        <div class="steps">
+          {
+            steps.map((s) => (
+              <div class="step">
+                <span class="step-n">{s.n}</span>
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="empezar" class="cta">
+      <div class="container cta-inner">
+        <h2>Tu bienestar empieza hoy</h2>
+        <p>
+          Únete a ACTIVASME y da el primer paso hacia una mente más sana y
+          activa. Es gratis empezar.
+        </p>
+        <a href="#" class="btn btn-light">Crear mi cuenta</a>
+      </div>
+    </section>
+
+    <!-- Línea de ayuda -->
+    <section class="helpline">
+      <div class="container">
+        <p>
+          <strong>¿Estás en crisis o necesitas ayuda urgente?</strong>
+          Si tú o alguien que conoces está en peligro, busca ayuda profesional de
+          inmediato o contacta la línea de emergencia de salud mental de tu país.
+          ACTIVASME es un apoyo al bienestar y no sustituye la atención médica
+          profesional.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="logo-text">ACTIVAS<strong>ME</strong></span>
+      <p>© 2026 ACTIVASME · Cuidando tu salud mental.</p>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  /* Header */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .logo-mark {
+    color: var(--teal-600);
+    font-size: 1.4rem;
+  }
+  .logo-text strong {
+    color: var(--teal-600);
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    font-size: 0.95rem;
+  }
+  nav a:not(.btn):hover {
+    color: var(--teal-600);
+  }
+
+  /* Botones */
+  .btn {
+    display: inline-block;
+    background: var(--teal-600);
+    color: #fff;
+    padding: 0.85rem 1.6rem;
+    border-radius: 999px;
+    font-weight: 600;
+    transition:
+      transform 0.15s ease,
+      background 0.15s ease;
+  }
+  .btn:hover {
+    background: var(--teal-700);
+    transform: translateY(-1px);
+  }
+  .btn-sm {
+    padding: 0.55rem 1.1rem;
+    font-size: 0.9rem;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--teal-700);
+    border: 1px solid var(--teal-600);
+  }
+  .btn-ghost:hover {
+    background: var(--teal-50);
+  }
+  .btn-light {
+    background: #fff;
+    color: var(--teal-700);
+  }
+  .btn-light:hover {
+    background: var(--teal-50);
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(180deg, var(--teal-50) 0%, #ffffff 100%);
+    padding: 5rem 0 4rem;
+    text-align: center;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--teal-600);
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.1rem, 5vw, 3.4rem);
+    line-height: 1.1;
+    font-weight: 800;
+    max-width: 16ch;
+    margin: 0 auto 1.25rem;
+    letter-spacing: -0.02em;
+  }
+  .lead {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--slate-600);
+    max-width: 60ch;
+    margin: 0 auto 2rem;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .hero-note {
+    margin-top: 1.75rem;
+    font-size: 0.9rem;
+    color: var(--slate-400);
+  }
+
+  /* Secciones */
+  .section {
+    padding: 4.5rem 0;
+  }
+  .section-alt {
+    background: var(--teal-50);
+  }
+  .section-title {
+    font-size: clamp(1.7rem, 3.5vw, 2.3rem);
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+  .section-subtitle {
+    text-align: center;
+    color: var(--slate-600);
+    margin-top: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  /* Cards */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 1.75rem;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(13, 148, 136, 0.12);
+  }
+  .card-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.85rem;
+  }
+  .card h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+  .card p {
+    color: var(--slate-600);
+    font-size: 0.97rem;
+  }
+
+  /* Pasos */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+  }
+  .step {
+    text-align: center;
+    padding: 1rem;
+  }
+  .step-n {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--teal-600);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  .step h3 {
+    margin-bottom: 0.4rem;
+  }
+  .step p {
+    color: var(--slate-600);
+  }
+
+  /* CTA */
+  .cta {
+    background: linear-gradient(135deg, var(--teal-600), var(--teal-700));
+    color: #fff;
+    padding: 4.5rem 0;
+    text-align: center;
+  }
+  .cta h2 {
+    font-size: clamp(1.7rem, 3.5vw, 2.3rem);
+    font-weight: 800;
+  }
+  .cta p {
+    max-width: 52ch;
+    margin: 1rem auto 2rem;
+    opacity: 0.92;
+  }
+
+  /* Helpline */
+  .helpline {
+    background: #fff7ed;
+    border-top: 1px solid #fed7aa;
+    border-bottom: 1px solid #fed7aa;
+    padding: 1.75rem 0;
+  }
+  .helpline p {
+    font-size: 0.92rem;
+    color: #7c2d12;
+    text-align: center;
+    max-width: 80ch;
+    margin: 0 auto;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding: 2.5rem 0;
+    background: var(--ink);
+    color: #cbd5e1;
+  }
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-inner .logo-text strong {
+    color: var(--teal-500);
+  }
+  .footer-inner p {
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 560px) {
+    nav {
+      gap: 1rem;
+    }
+    nav a:not(.btn) {
+      display: none;
+    }
+  }
+</style>
