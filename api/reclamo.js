@@ -1,30 +1,24 @@
 import { createClient } from '@vercel/kv';
+import { sendMail, mailReady, EMPRESA_EMAIL } from '../server/mailer.js';
+
+/**
+ * Backend del Libro de Reclamaciones (Ley N.° 29571 — INDECOPI).
+ * - Asigna un número correlativo único a cada hoja de reclamación.
+ * - Archiva el registro (Vercel KV) para su conservación.
+ * - Notifica a la empresa y envía copia automática al consumidor (Gmail SMTP).
+ */
 
 // Soporta ambas convenciones de variables (Vercel KV nativo o Upstash Marketplace).
 const KV_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const KV_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 const kv = KV_URL && KV_TOKEN ? createClient({ url: KV_URL, token: KV_TOKEN }) : null;
 
-/**
- * Backend del Libro de Reclamaciones (Ley N.° 29571 — INDECOPI).
- * - Asigna un número correlativo único a cada hoja de reclamación.
- * - Archiva el registro (Vercel KV) para su conservación.
- * - Notifica a la empresa y envía copia automática al consumidor.
- *
- * Variables de entorno:
- *   EMPRESA_EMAIL          correo de la empresa (destino). Default soypuromarketing@gmail.com
- *   KV_REST_API_URL/TOKEN  inyectadas al conectar un store de Vercel KV (Upstash) al proyecto.
- */
-
-const EMPRESA_EMAIL = process.env.EMPRESA_EMAIL || 'soypuromarketing@gmail.com';
-
 // Normaliza saltos de línea/tabs (previene inyección en correo) y recorta longitud.
 function clean(v) {
   return String(v ?? '').replace(/[\r\n\t]+/g, ' ').trim().slice(0, 4000);
 }
 
-// Texto plano multilínea para la autorespuesta al consumidor.
-function autorespuesta(numero, b) {
+function correoConsumidor(numero, b) {
   const tipo = clean(b.tipo_solicitud) === 'queja' ? 'queja' : 'reclamo';
   return [
     `Hola ${clean(b.nombre)},`,
@@ -34,17 +28,44 @@ function autorespuesta(numero, b) {
     `N.° de Hoja de Reclamación: ${numero}`,
     `Fecha de registro: ${new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' })}`,
     '',
-    'Resumen:',
+    'Resumen de tu solicitud:',
     `- Tipo: ${tipo.toUpperCase()}`,
+    `- Descripción del bien/servicio: ${clean(b.descripcion)}`,
     `- Detalle: ${clean(b.detalle)}`,
     `- Pedido: ${clean(b.pedido)}`,
     '',
-    'Daremos respuesta a tu solicitud en un plazo no mayor a 15 días hábiles, conforme a la',
-    'Ley N.° 29571. La presentación de este reclamo no impide acudir a otras vías de solución',
-    'de controversias ni es requisito para denunciar ante INDECOPI.',
+    'Daremos respuesta en un plazo no mayor a 15 días hábiles, conforme a la Ley N.° 29571.',
+    'La presentación de este reclamo no impide acudir a otras vías de solución de',
+    'controversias ni es requisito para denunciar ante INDECOPI.',
     '',
     'Conserva este número para cualquier seguimiento.',
     '— Equipo de ACTIVA',
+  ].join('\n');
+}
+
+function correoEmpresa(numero, b, archivado) {
+  return [
+    `Nueva hoja de reclamación registrada: ${numero}`,
+    `Fecha: ${new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' })}`,
+    `Archivado en base de datos: ${archivado ? 'sí (KV)' : 'NO — configurar Vercel KV'}`,
+    '',
+    '== Consumidor ==',
+    `Nombre: ${clean(b.nombre)}`,
+    `Documento: ${clean(b.documento)}`,
+    `Domicilio: ${clean(b.domicilio)}`,
+    `Teléfono: ${clean(b.telefono)}`,
+    `Correo: ${clean(b.email)}`,
+    `Padre/Apoderado (si es menor): ${clean(b.apoderado)}`,
+    '',
+    '== Bien contratado ==',
+    `Tipo: ${clean(b.tipo_bien)}`,
+    `Monto (S/): ${clean(b.monto)}`,
+    `Descripción: ${clean(b.descripcion)}`,
+    '',
+    '== Detalle ==',
+    `Tipo de solicitud: ${clean(b.tipo_solicitud).toUpperCase()}`,
+    `Detalle: ${clean(b.detalle)}`,
+    `Pedido del consumidor: ${clean(b.pedido)}`,
   ].join('\n');
 }
 
@@ -56,28 +77,25 @@ export default async function handler(req, res) {
 
   const b = req.body || {};
 
-  // Honeypot anti-spam: si viene relleno, fingimos éxito sin procesar.
+  // Honeypot anti-spam.
   if (b._honey) return res.redirect(303, '/gracias/');
 
   // Validación de campos obligatorios del formato oficial.
   const required = ['nombre', 'documento', 'email', 'descripcion', 'detalle', 'pedido'];
   for (const f of required) {
-    if (!clean(b[f])) {
-      return res.redirect(303, '/libro-de-reclamaciones/?error=1');
-    }
+    if (!clean(b[f])) return res.redirect(303, '/libro-de-reclamaciones/?error=1');
   }
 
   const year = new Date().getFullYear();
   let numero = null;
   let archivado = false;
 
-  // Número correlativo + archivo (Vercel KV). Si no está configurado, se usa
-  // un identificador único de respaldo para no perder el reclamo.
+  // Número correlativo + archivo (Vercel KV). Respaldo si no está configurado.
   try {
     if (kv) {
       const n = await kv.incr('lr:counter');
       numero = `LR-${year}-${String(n).padStart(6, '0')}`;
-      const registro = {
+      await kv.set(`lr:reclamo:${numero}`, {
         numero,
         fecha: new Date().toISOString(),
         nombre: clean(b.nombre),
@@ -93,8 +111,7 @@ export default async function handler(req, res) {
         detalle: clean(b.detalle),
         pedido: clean(b.pedido),
         estado: 'pendiente',
-      };
-      await kv.set(`lr:reclamo:${numero}`, registro);
+      });
       await kv.lpush('lr:index', numero);
       archivado = true;
     }
@@ -102,37 +119,27 @@ export default async function handler(req, res) {
     console.error('KV error:', err);
   }
 
-  if (!numero) {
-    numero = `LR-${year}-${Date.now().toString().slice(-9)}`;
-  }
+  if (!numero) numero = `LR-${year}-${Date.now().toString().slice(-9)}`;
 
-  // Notificación a la empresa + copia automática al consumidor (FormSubmit).
+  // Correos: notificación a la empresa + copia al consumidor.
   try {
-    await fetch(`https://formsubmit.co/ajax/${EMPRESA_EMAIL}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({
-        _subject: `Libro de Reclamaciones ${numero} — ACTIVA`,
-        _template: 'table',
-        _autoresponse: autorespuesta(numero, b),
-        'N.° de Hoja': numero,
-        Tipo: clean(b.tipo_solicitud).toUpperCase(),
-        Nombre: clean(b.nombre),
-        Documento: clean(b.documento),
-        Domicilio: clean(b.domicilio),
-        Teléfono: clean(b.telefono),
-        email: clean(b.email),
-        'Padre/Apoderado': clean(b.apoderado),
-        Bien: clean(b.tipo_bien),
-        'Monto (S/)': clean(b.monto),
-        'Descripción del bien': clean(b.descripcion),
-        Detalle: clean(b.detalle),
-        Pedido: clean(b.pedido),
-        Archivado: archivado ? 'sí (KV)' : 'no — configurar Vercel KV',
-      }),
-    });
+    if (mailReady()) {
+      await sendMail({
+        to: EMPRESA_EMAIL(),
+        replyTo: clean(b.email),
+        subject: `Libro de Reclamaciones ${numero} — ACTIVA`,
+        text: correoEmpresa(numero, b, archivado),
+      });
+      await sendMail({
+        to: clean(b.email),
+        subject: `Recibimos tu reclamo ${numero} — ACTIVA`,
+        text: correoConsumidor(numero, b),
+      });
+    } else {
+      console.warn('Gmail no configurado: reclamo', numero, 'registrado sin correo.');
+    }
   } catch (err) {
-    console.error('Notificación error:', err);
+    console.error('Correo error:', err);
   }
 
   return res.redirect(303, `/gracias/?n=${encodeURIComponent(numero)}`);

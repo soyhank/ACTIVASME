@@ -62,13 +62,8 @@ const waHref = whatsappLink();
 
     <div class="c-form-wrap">
       <h2>Escríbenos</h2>
-      <!-- Envío vía FormSubmit. TODO: cambiar el correo del action por el de la empresa
-           cuando se confirme, y añadir _cc con soypuromarketing@gmail.com. -->
-      <form class="c-form" action="https://formsubmit.co/soypuromarketing@gmail.com" method="POST" novalidate>
-        <input type="hidden" name="_subject" value="Nuevo mensaje de contacto — ACTIVA" />
-        <input type="hidden" name="_template" value="table" />
-        <input type="hidden" name="_captcha" value="false" />
-        <input type="hidden" name="_next" value="https://activasme.com/gracias/" />
+      <!-- Backend propio: envía el mensaje a la empresa por correo (Gmail SMTP). -->
+      <form class="c-form" action="/api/contacto/" method="POST" novalidate>
         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <div class="field">
           <label for="nombre">Nombre y apellido <span aria-hidden="true">*</span></label>
