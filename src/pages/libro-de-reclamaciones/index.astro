@@ -57,9 +57,15 @@ const breadcrumbItems = [
       </div>
     </div>
 
-    <!-- TODO: reemplazar action por el endpoint real que registre, numere y notifique el reclamo. -->
-    <form class="lr-form" action="https://formspree.io/f/TODO" method="POST" novalidate>
-      <input type="hidden" name="_subject" value="Libro de Reclamaciones - ACTIVA" />
+    <!-- Envío vía FormSubmit. TODO: cambiar el correo del action por el de la empresa
+         cuando se confirme, y añadir _cc con soypuromarketing@gmail.com. Para cumplimiento
+         legal, conviene un backend que numere y archive cada reclamo. -->
+    <form class="lr-form" action="https://formsubmit.co/soypuromarketing@gmail.com" method="POST" novalidate>
+      <input type="hidden" name="_subject" value="Libro de Reclamaciones — ACTIVA" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_next" value="https://activasme.com/gracias/" />
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
       <fieldset>
         <legend>1. Identificación del consumidor reclamante</legend>

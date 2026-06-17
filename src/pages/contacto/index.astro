@@ -62,8 +62,14 @@ const waHref = whatsappLink();
 
     <div class="c-form-wrap">
       <h2>Escríbenos</h2>
-      <!-- TODO: reemplazar action por el endpoint real del formulario (p. ej. Formspree, Getform o un backend propio). -->
-      <form class="c-form" action="https://formspree.io/f/TODO" method="POST" novalidate>
+      <!-- Envío vía FormSubmit. TODO: cambiar el correo del action por el de la empresa
+           cuando se confirme, y añadir _cc con soypuromarketing@gmail.com. -->
+      <form class="c-form" action="https://formsubmit.co/soypuromarketing@gmail.com" method="POST" novalidate>
+        <input type="hidden" name="_subject" value="Nuevo mensaje de contacto — ACTIVA" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_next" value="https://activasme.com/gracias/" />
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <div class="field">
           <label for="nombre">Nombre y apellido <span aria-hidden="true">*</span></label>
           <input id="nombre" name="nombre" type="text" required autocomplete="name" aria-required="true" />

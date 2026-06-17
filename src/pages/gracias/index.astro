@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { whatsappLink } from '../../lib/whatsapp';
+
+const waHref = whatsappLink();
+---
+
+<BaseLayout title="Mensaje enviado" description="Hemos recibido tu mensaje. Gracias por escribir a ACTIVA." noindex={true}>
+  <section class="ty">
+    <div class="container-wide">
+      <span class="ty-check" aria-hidden="true">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <h1>¡Gracias! Recibimos tu mensaje</h1>
+      <p class="ty-text">
+        Tu solicitud fue enviada correctamente. Nuestro equipo te responderá a la brevedad.
+        Si necesitas atención inmediata, escríbenos por WhatsApp.
+      </p>
+      <div class="ty-actions">
+        <a class="ty-cta" href={waHref} target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+        <a class="ty-link" href="/">Volver al inicio</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .ty { padding: 4.5rem 0 5rem; text-align: center; }
+  .ty-check { display: inline-flex; align-items: center; justify-content: center; width: 72px; height: 72px; border-radius: 50%; background: var(--color-primary); color: #fff; margin-bottom: 1rem; }
+  .ty h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); }
+  .ty-text { color: var(--color-text-muted); max-width: 52ch; margin: 1rem auto 2rem; }
+  .ty-actions { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; align-items: center; }
+  .ty-cta { background: var(--color-accent); color: var(--color-on-accent); padding: 0.85rem 1.6rem; border-radius: 999px; font-weight: 800; }
+  .ty-cta:hover { background: var(--color-accent-dark); }
+  .ty-link { color: var(--color-primary-dark); font-weight: 700; }
+</style>
