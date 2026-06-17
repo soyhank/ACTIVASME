@@ -14,6 +14,7 @@
   "dependencies": {
     "@astrojs/mdx": "^6.0.3",
     "@astrojs/sitemap": "^3.7.3",
+    "@fontsource-variable/cinzel": "^5.2.8",
     "@fontsource-variable/inter": "^5.2.8",
     "@fontsource-variable/nunito-sans": "^5.2.7",
     "@tailwindcss/vite": "^4.3.1",

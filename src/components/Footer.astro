@@ -2,6 +2,7 @@
 import { SITE } from '../lib/site';
 import { PSICOLOGIA, PSIQUIATRIA } from '../lib/nav';
 import { whatsappLink } from '../lib/whatsapp';
+import Brand from './Brand.astro';
 
 const year = 2026;
 const waHref = whatsappLink();
@@ -10,7 +11,7 @@ const waHref = whatsappLink();
 <footer class="site-footer">
   <div class="container-wide footer-grid">
     <div class="footer-brand">
-      <img src="/logo-blanco.png" width="261" height="96" alt="ACTIVA Mental Health & Wellness" />
+      <Brand variant="light" size="lg" />
       <p class="footer-slogan">«{SITE.slogan}»</p>
       <p class="footer-desc">
         Centro de salud mental en Lima. Psicología y psiquiatría, presencial y online,
@@ -93,7 +94,7 @@ const waHref = whatsappLink();
     gap: 2rem;
     padding-bottom: 2.5rem;
   }
-  .footer-brand img { height: 44px; width: auto; margin-bottom: 0.75rem; }
+  .footer-brand :global(.brand-logo) { margin-bottom: 0.85rem; align-items: flex-start; }
   .footer-slogan { font-style: italic; color: #9fe0d4; margin-bottom: 0.5rem; }
   .footer-desc { font-size: 0.92rem; color: #bcdcd9; max-width: 36ch; }
   .footer-social { display: flex; gap: 1rem; margin-top: 1rem; font-size: 0.9rem; }

@@ -1,0 +1,58 @@
+---
+interface Props {
+  variant?: 'dark' | 'light';
+  size?: 'md' | 'lg';
+}
+const { variant = 'dark', size = 'md' } = Astro.props;
+---
+
+<span class:list={['brand-logo', variant, size]}>
+  <span class="brand-name">ACTIVA</span>
+  <span class="brand-tag">Servicios Médicos Especializados</span>
+</span>
+
+<style>
+  .brand-logo {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    text-align: center;
+  }
+  .brand-name {
+    font-family: 'Cinzel Variable', Georgia, 'Times New Roman', serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    letter-spacing: 0.22em;
+    text-indent: 0.22em; /* compensa el tracking para centrar */
+    color: var(--color-text);
+  }
+  .brand-tag {
+    margin-top: 0.28rem;
+    padding-top: 0.24rem;
+    border-top: 1px solid currentColor;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.47rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-text-muted);
+  }
+
+  /* Tamaño grande (p. ej. footer o cabeceras destacadas) */
+  .brand-logo.lg .brand-name { font-size: 1.8rem; }
+  .brand-logo.lg .brand-tag { font-size: 0.62rem; }
+
+  /* Variante para fondos oscuros */
+  .brand-logo.light .brand-name { color: #fff; }
+  .brand-logo.light .brand-tag {
+    color: #cfe8e5;
+    border-color: rgba(255, 255, 255, 0.55);
+  }
+
+  @media (max-width: 380px) {
+    .brand-name { font-size: 1.2rem; letter-spacing: 0.2em; text-indent: 0.2em; }
+    .brand-tag { font-size: 0.46rem; }
+  }
+</style>
