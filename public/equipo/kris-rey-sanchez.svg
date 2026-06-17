@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360" viewBox="0 0 360 360">
-    <defs><linearGradient id="g" x1="0" y1="0" x2="360" y2="360" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#3D9A8B"/><stop offset="1" stop-color="#1B5563"/></linearGradient></defs>
-    <rect width="360" height="360" fill="url(#g)"/>
-    <circle cx="180" cy="142" r="62" fill="#ffffff" opacity="0.92"/>
-    <path d="M82 320c0-54 44-86 98-86s98 32 98 86z" fill="#ffffff" opacity="0.92"/>
-    <text x="180" y="158" font-family="sans-serif" font-size="62" font-weight="700" fill="#3D9A8B" text-anchor="middle">KR</text>
-  </svg>

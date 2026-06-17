@@ -14,7 +14,7 @@ areas:
   - { nombre: "Adicciones" }
   - { nombre: "Dolor de cabeza y cefaleas" }
 modalidad: "presencial/virtual"
-foto: "/equipo/kris-rey-sanchez.svg"
+foto: "/equipo/kris-rey-sanchez.jpg"
 numeroColegiatura: "TODO"
 mensajeWhatsapp: "¡Hola! Quisiera agendar una cita con el Dr. Kris Rey."
 orden: 7

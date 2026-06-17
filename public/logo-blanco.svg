@@ -1,9 +1,0 @@
-<svg width="220" height="56" viewBox="0 0 220 56" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ACTIVA Mental Health & Wellness">
-  <g transform="translate(2,4)">
-    <path d="M23 32c0 7-.3 12-1 17h4c-.7-5-1-10-1-17z" fill="#ffffff" opacity="0.85"/>
-    <path d="M24 2C16.3 2 10 7.8 10 15c0 5.4 3.5 10 8.5 11.9.6.2 1.1-.1 1.1-.8 0-2.8 1.9-5 4.4-5s4.4 2.2 4.4 5c0 .7.5 1 1.1.8C34.5 25 38 20.4 38 15c0-7.2-6.3-13-14-13z" fill="#ffffff"/>
-    <path d="M24 9c-.1 5.6-.1 9 0 14.4M24 14c2.1-1.9 4-2.6 6.1-2.8M24 16.6c-2.1-1.9-4-2.6-6.1-2.8" stroke="#2A7F8E" stroke-width="1.4" stroke-linecap="round" opacity="0.9"/>
-  </g>
-  <text x="52" y="28" font-family="'Nunito Sans','Segoe UI',sans-serif" font-size="24" font-weight="800" letter-spacing="0.5" fill="#ffffff">ACTIVA</text>
-  <text x="53" y="44" font-family="'Inter','Segoe UI',sans-serif" font-size="9" font-weight="600" letter-spacing="2.4" fill="#CDEDE9">MENTAL HEALTH &amp; WELLNESS</text>
-</svg>

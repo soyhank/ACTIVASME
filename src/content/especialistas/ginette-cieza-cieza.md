@@ -14,7 +14,7 @@ areas:
   - { nombre: "Trastorno bipolar", servicio: "trastorno-bipolar" }
   - { nombre: "Demencias" }
 modalidad: "virtual"
-foto: "/equipo/ginette-cieza-cieza.svg"
+foto: "/equipo/ginette-cieza-cieza.jpg"
 numeroColegiatura: "TODO"
 mensajeWhatsapp: "¡Hola! Quisiera agendar una cita con la Dra. Ginette Cieza."
 orden: 4

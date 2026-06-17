@@ -14,7 +14,7 @@ areas:
   - { nombre: "Atención a niños (desde 5 años)", servicio: "terapia-infantil" }
   - { nombre: "Adolescentes y adultos" }
 modalidad: "presencial/virtual"
-foto: "/equipo/sandra-pamela-cano-ramos.svg"
+foto: "/equipo/sandra-pamela-cano-ramos.jpg"
 numeroColegiatura: "TODO"
 mensajeWhatsapp: "¡Hola! Quisiera agendar una cita con la Lic. Sandra Cano."
 orden: 3

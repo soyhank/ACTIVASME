@@ -13,7 +13,7 @@ areas:
   - { nombre: "Adicciones" }
   - { nombre: "Trastornos alimenticios", servicio: "trastornos-alimentarios" }
 modalidad: "presencial/virtual"
-foto: "/equipo/karen-arcaya-saenz.svg"
+foto: "/equipo/karen-arcaya-saenz.jpg"
 numeroColegiatura: "TODO"
 mensajeWhatsapp: "¡Hola! Quisiera agendar una cita con la Dra. Karen Arcaya."
 orden: 6

@@ -14,7 +14,7 @@ areas:
   - { nombre: "Psiquiatría integrativa", servicio: "psiquiatria-integrativa" }
   - { nombre: "Psiquiatría de enlace", servicio: "psiquiatria-de-enlace" }
 modalidad: "virtual"
-foto: "/equipo/fernando-ramirez-zavaleta.svg"
+foto: "/equipo/fernando-ramirez-zavaleta.jpg"
 numeroColegiatura: "TODO"
 mensajeWhatsapp: "¡Hola! Quisiera agendar una cita con el Dr. Fernando Ramírez."
 orden: 5

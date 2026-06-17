@@ -17,7 +17,7 @@ export function medicalClinicSchema() {
     alternateName: SITE.shortName,
     slogan: SITE.slogan,
     url: SITE.url,
-    logo: abs('/logo.svg'),
+    logo: abs('/logo.png'),
     image: abs('/og-default.jpg'),
     telephone: SITE.phoneE164,
     description: SITE.description,
@@ -159,7 +159,7 @@ export function articleSchema(a: {
       '@type': 'MedicalClinic',
       '@id': `${SITE.url}/#clinic`,
       name: SITE.name,
-      logo: { '@type': 'ImageObject', url: abs('/logo.svg') },
+      logo: { '@type': 'ImageObject', url: abs('/logo.png') },
     },
   };
 }
