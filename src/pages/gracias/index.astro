@@ -11,11 +11,25 @@ const waHref = whatsappLink();
       <span class="ty-check" aria-hidden="true">
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
-      <h1>¡Gracias! Recibimos tu mensaje</h1>
-      <p class="ty-text">
-        Tu solicitud fue enviada correctamente. Nuestro equipo te responderá a la brevedad.
-        Si necesitas atención inmediata, escríbenos por WhatsApp.
+      <h1>¡Gracias! Recibimos tu solicitud</h1>
+      <p class="ty-numero" id="ty-numero" hidden>
+        N.° de Hoja de Reclamación: <strong id="ty-numero-val"></strong>
       </p>
+      <p class="ty-text">
+        Tu solicitud fue enviada correctamente. Te enviamos una copia a tu correo. Nuestro
+        equipo te responderá a la brevedad; si necesitas atención inmediata, escríbenos por
+        WhatsApp.
+      </p>
+
+      <script is:inline>
+        (function () {
+          var n = new URLSearchParams(location.search).get('n');
+          if (n && /^LR-[0-9A-Za-z-]+$/.test(n)) {
+            document.getElementById('ty-numero-val').textContent = n;
+            document.getElementById('ty-numero').hidden = false;
+          }
+        })();
+      </script>
       <div class="ty-actions">
         <a class="ty-cta" href={waHref} target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
         <a class="ty-link" href="/">Volver al inicio</a>
@@ -28,6 +42,13 @@ const waHref = whatsappLink();
   .ty { padding: 4.5rem 0 5rem; text-align: center; }
   .ty-check { display: inline-flex; align-items: center; justify-content: center; width: 72px; height: 72px; border-radius: 50%; background: var(--color-primary); color: #fff; margin-bottom: 1rem; }
   .ty h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); }
+  .ty-numero {
+    display: inline-block; margin: 1rem auto 0;
+    background: color-mix(in srgb, var(--color-primary-light) 22%, var(--color-surface));
+    border: 1px solid var(--color-border); border-radius: 10px;
+    padding: 0.5rem 1rem; color: var(--color-primary-dark); font-size: 0.95rem;
+  }
+  .ty-numero strong { font-family: var(--font-display); letter-spacing: 0.02em; }
   .ty-text { color: var(--color-text-muted); max-width: 52ch; margin: 1rem auto 2rem; }
   .ty-actions { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; align-items: center; }
   .ty-cta { background: var(--color-accent); color: var(--color-on-accent); padding: 0.85rem 1.6rem; border-radius: 999px; font-weight: 800; }

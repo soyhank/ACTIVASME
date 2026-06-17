@@ -57,14 +57,9 @@ const breadcrumbItems = [
       </div>
     </div>
 
-    <!-- Envío vía FormSubmit. TODO: cambiar el correo del action por el de la empresa
-         cuando se confirme, y añadir _cc con soypuromarketing@gmail.com. Para cumplimiento
-         legal, conviene un backend que numere y archive cada reclamo. -->
-    <form class="lr-form" action="https://formsubmit.co/soypuromarketing@gmail.com" method="POST" novalidate>
-      <input type="hidden" name="_subject" value="Libro de Reclamaciones — ACTIVA" />
-      <input type="hidden" name="_template" value="table" />
-      <input type="hidden" name="_captcha" value="false" />
-      <input type="hidden" name="_next" value="https://activasme.com/gracias/" />
+    <!-- Backend INDECOPI: /api/reclamo asigna N.° correlativo, archiva el registro,
+         notifica a la empresa y envía copia automática al consumidor. -->
+    <form class="lr-form" action="/api/reclamo/" method="POST" novalidate>
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
       <fieldset>
