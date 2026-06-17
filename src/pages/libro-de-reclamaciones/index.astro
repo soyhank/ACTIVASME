@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { SITE } from '../../lib/site';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const title = 'Libro de Reclamaciones';
+const description =
+  'Libro de Reclamaciones virtual de ACTIVA Mental Health & Wellness, conforme al Código de Protección y Defensa del Consumidor (Ley N.° 29571 - INDECOPI).';
+const url = '/libro-de-reclamaciones/';
+const breadcrumbItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Libro de Reclamaciones', href: url },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={url} jsonld={[breadcrumbSchema(breadcrumbItems)]}>
+  <div class="container-wide lr-top">
+    <Breadcrumbs items={breadcrumbItems} />
+  </div>
+
+  <section class="lr-hero">
+    <div class="container-wide lr-hero-inner">
+      <span class="lr-book" aria-hidden="true">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+          <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5V5.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+          <path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5A2.5 2.5 0 0 1 4 20.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+          <path d="M8 7.5h8M8 11h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <div>
+        <h1>Libro de Reclamaciones</h1>
+        <p class="lr-sub">
+          Conforme al Código de Protección y Defensa del Consumidor
+          (Ley N.° 29571) y su Reglamento del Libro de Reclamaciones.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-wide lr-body">
+    <aside class="lr-info">
+      <p><strong>Proveedor:</strong> {SITE.name}</p>
+      <p><strong>RUC:</strong> <span class="lr-todo">por confirmar</span></p>
+      <p><strong>Dirección:</strong> <span class="lr-todo">Lima — por confirmar</span></p>
+      <p class="lr-num">N.° de Hoja de Reclamación: <em>se asignará al registrar tu solicitud</em></p>
+    </aside>
+
+    <div class="lr-defs">
+      <div>
+        <span class="lr-tag">Reclamo</span>
+        <p>Disconformidad relacionada con los productos o servicios.</p>
+      </div>
+      <div>
+        <span class="lr-tag">Queja</span>
+        <p>Disconformidad no relacionada con los productos o servicios; o malestar respecto a la atención al público.</p>
+      </div>
+    </div>
+
+    <!-- TODO: reemplazar action por el endpoint real que registre, numere y notifique el reclamo. -->
+    <form class="lr-form" action="https://formspree.io/f/TODO" method="POST" novalidate>
+      <input type="hidden" name="_subject" value="Libro de Reclamaciones - ACTIVA" />
+
+      <fieldset>
+        <legend>1. Identificación del consumidor reclamante</legend>
+        <div class="grid-2">
+          <div class="field">
+            <label for="nombre">Nombres y apellidos <abbr title="obligatorio">*</abbr></label>
+            <input id="nombre" name="nombre" type="text" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="documento">Tipo y N.° de documento (DNI/CE/Pasaporte) <abbr title="obligatorio">*</abbr></label>
+            <input id="documento" name="documento" type="text" required inputmode="numeric" />
+          </div>
+          <div class="field">
+            <label for="domicilio">Domicilio <abbr title="obligatorio">*</abbr></label>
+            <input id="domicilio" name="domicilio" type="text" required autocomplete="street-address" />
+          </div>
+          <div class="field">
+            <label for="telefono">Teléfono <abbr title="obligatorio">*</abbr></label>
+            <input id="telefono" name="telefono" type="tel" required autocomplete="tel" inputmode="tel" />
+          </div>
+          <div class="field">
+            <label for="email">Correo electrónico <abbr title="obligatorio">*</abbr></label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="apoderado">Si eres menor de edad, nombre del padre/madre o apoderado</label>
+            <input id="apoderado" name="apoderado" type="text" />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>2. Identificación del bien contratado</legend>
+        <div class="radio-row" role="radiogroup" aria-label="Tipo de bien">
+          <label class="radio"><input type="radio" name="tipo_bien" value="producto" /> Producto</label>
+          <label class="radio"><input type="radio" name="tipo_bien" value="servicio" checked /> Servicio</label>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="monto">Monto reclamado (S/)</label>
+            <input id="monto" name="monto" type="text" inputmode="decimal" placeholder="Opcional" />
+          </div>
+          <div class="field">
+            <label for="descripcion">Descripción del producto o servicio <abbr title="obligatorio">*</abbr></label>
+            <input id="descripcion" name="descripcion" type="text" required />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>3. Detalle de la reclamación y pedido del consumidor</legend>
+        <div class="radio-row" role="radiogroup" aria-label="Tipo de solicitud">
+          <label class="radio"><input type="radio" name="tipo_solicitud" value="reclamo" required checked /> Reclamo</label>
+          <label class="radio"><input type="radio" name="tipo_solicitud" value="queja" /> Queja</label>
+        </div>
+        <div class="field">
+          <label for="detalle">Detalle <abbr title="obligatorio">*</abbr></label>
+          <textarea id="detalle" name="detalle" rows="5" required></textarea>
+        </div>
+        <div class="field">
+          <label for="pedido">Pedido del consumidor <abbr title="obligatorio">*</abbr></label>
+          <textarea id="pedido" name="pedido" rows="4" required></textarea>
+        </div>
+      </fieldset>
+
+      <div class="field-check">
+        <input id="consent" name="consent" type="checkbox" required />
+        <label for="consent">
+          Declaro que los datos consignados son verdaderos y acepto el tratamiento de mis
+          datos personales conforme a la <a href="/privacidad/">Política de Privacidad</a>
+          (Ley N.° 29733).
+        </label>
+      </div>
+
+      <button type="submit" class="lr-submit">Enviar reclamación</button>
+
+      <p class="lr-legal">
+        La formulación del reclamo no impide acudir a otras vías de solución de
+        controversias ni es requisito previo para una denuncia ante el INDECOPI. El
+        proveedor dará respuesta en el plazo legal vigente (no mayor a 15 días hábiles,
+        prorrogable conforme a ley).
+      </p>
+    </form>
+  </section>
+</BaseLayout>
+
+<style>
+  .lr-top { padding-top: 1.25rem; }
+  .lr-hero { padding: 0.5rem 0 1.5rem; background: linear-gradient(180deg, color-mix(in srgb, var(--color-primary-light) 16%, var(--color-bg)), var(--color-bg)); }
+  .lr-hero-inner { display: flex; align-items: center; gap: 1rem; }
+  .lr-book { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 16px; background: var(--color-primary); color: #fff; flex: none; }
+  .lr-hero h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); }
+  .lr-sub { color: var(--color-text-muted); margin-top: 0.3rem; max-width: 60ch; font-size: 0.95rem; }
+
+  .lr-body { max-width: 860px; padding: 1.5rem 1.25rem 2.5rem; }
+  .lr-info { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .lr-info p { margin: 0.15rem 0; }
+  .lr-todo { color: var(--color-text-muted); }
+  .lr-num { margin-top: 0.5rem !important; color: var(--color-primary-dark); }
+
+  .lr-defs { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.75rem; }
+  .lr-defs > div { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1rem; }
+  .lr-defs p { font-size: 0.9rem; color: var(--color-text-muted); margin-top: 0.4rem; }
+  .lr-tag { display: inline-block; background: color-mix(in srgb, var(--color-primary-light) 28%, var(--color-surface)); color: var(--color-primary-dark); font-weight: 800; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.2rem 0.7rem; border-radius: 999px; }
+
+  .lr-form fieldset { border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.25rem 1.25rem 0.5rem; margin-bottom: 1.5rem; }
+  .lr-form legend { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; color: var(--color-primary-dark); padding: 0 0.5rem; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .field { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem; }
+  .field label { font-weight: 600; font-size: 0.9rem; }
+  .field abbr { color: #c0392b; text-decoration: none; }
+  .field input, .field textarea { border: 1.5px solid var(--color-border); border-radius: 10px; padding: 0.7rem 0.85rem; font: inherit; color: var(--color-text); background: var(--color-surface); }
+  .field input:focus, .field textarea:focus { border-color: var(--color-primary); outline: none; }
+  .radio-row { display: flex; gap: 1.5rem; margin-bottom: 1rem; }
+  .radio { display: inline-flex; align-items: center; gap: 0.45rem; font-weight: 600; cursor: pointer; }
+  .field-check { display: flex; gap: 0.6rem; align-items: flex-start; margin: 0.5rem 0 1.25rem; font-size: 0.88rem; color: var(--color-text-muted); }
+  .field-check a { color: var(--color-primary-dark); text-decoration: underline; }
+  .lr-submit { background: var(--color-primary); color: #fff; border: 0; padding: 0.9rem 1.8rem; border-radius: 999px; font-weight: 800; font: inherit; cursor: pointer; }
+  .lr-submit:hover { background: var(--color-primary-dark); }
+  .lr-legal { font-size: 0.8rem; color: var(--color-text-muted); margin-top: 1rem; }
+
+  @media (max-width: 700px) {
+    .grid-2, .lr-defs { grid-template-columns: 1fr; }
+  }
+</style>
