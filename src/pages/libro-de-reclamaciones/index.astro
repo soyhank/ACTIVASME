@@ -170,6 +170,11 @@ const breadcrumbItems = [
   .lr-form legend { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; color: var(--color-primary-dark); padding: 0 0.5rem; }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   .field { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem; }
+  /* En el grid de 2 columnas, alinea los inputs al fondo para que queden
+     nivelados aunque una etiqueta ocupe más líneas que la otra. */
+  .grid-2 .field { margin-bottom: 0; }
+  .grid-2 .field input { margin-top: auto; }
+  .grid-2 { row-gap: 1rem; }
   .field label { font-weight: 600; font-size: 0.9rem; }
   .field abbr { color: #c0392b; text-decoration: none; }
   .field input, .field textarea { border: 1.5px solid var(--color-border); border-radius: 10px; padding: 0.7rem 0.85rem; font: inherit; color: var(--color-text); background: var(--color-surface); }
