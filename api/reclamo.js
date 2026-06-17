@@ -1,4 +1,9 @@
-import { kv } from '@vercel/kv';
+import { createClient } from '@vercel/kv';
+
+// Soporta ambas convenciones de variables (Vercel KV nativo o Upstash Marketplace).
+const KV_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+const KV_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+const kv = KV_URL && KV_TOKEN ? createClient({ url: KV_URL, token: KV_TOKEN }) : null;
 
 /**
  * Backend del Libro de Reclamaciones (Ley N.° 29571 — INDECOPI).
@@ -69,7 +74,7 @@ export default async function handler(req, res) {
   // Número correlativo + archivo (Vercel KV). Si no está configurado, se usa
   // un identificador único de respaldo para no perder el reclamo.
   try {
-    if (process.env.KV_REST_API_URL) {
+    if (kv) {
       const n = await kv.incr('lr:counter');
       numero = `LR-${year}-${String(n).padStart(6, '0')}`;
       const registro = {
